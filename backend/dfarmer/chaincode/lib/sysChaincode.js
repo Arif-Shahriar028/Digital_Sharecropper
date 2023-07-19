@@ -15,13 +15,14 @@ class SysChanicode extends Contract {
 
 
   //*============= Create Account =============
-  async CreateAccount(ctx, key, txId, name, phoneNo, userType, password) {
+  async CreateAccount(ctx, key, txId, name, phoneNo, nid, userType, password) {
     // ctx is transaction context
     const user = {
       Key: key,
       TxnId: txId,
       Name: name,
       PhoneNo: phoneNo,
+      Nid: nid,
       Type: userType,
       Password: password,
       DocType: 'user',
@@ -55,10 +56,11 @@ class SysChanicode extends Contract {
   }
 
   //*============= Farmer Request for land =============
-  async RequestLand(ctx, key, txId, name, nid, landLocation, landAmount, expTime) {
+  async RequestLand(ctx, key, userId, txId, name, nid, landLocation, landAmount, expTime) {
     // ctx is transaction context
     const requestLand = {
       Key: key,
+      UserId: userId,
       TxnId: txId,
       Name: name,
       Nid: nid,
@@ -93,7 +95,7 @@ class SysChanicode extends Contract {
     await ctx.stub.putState(
       // The stub encapsulates the APIs between the chaincode implementation and the Fabric peer.
       key,
-      Buffer.from(stringify(sortKeysRecursive(setAppointment)))
+      Buffer.froappointmentTime, place, userId, agentIdm(stringify(sortKeysRecursive(setAppointment)))
     );
     return JSON.stringify(setAppointment);
   }

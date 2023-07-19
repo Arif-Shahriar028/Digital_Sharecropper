@@ -1,10 +1,9 @@
 module.exports = {
-  registerUser: async (req, res, contract, txId, createTxn) => {
+  updateProfile: async (req, res, contract, txId, createTxn) => {
     // API implementation
-    const { name, phoneNo, password, userType} = req.body;
+    const { name, phoneNo, nid, password, userType} = req.body;
 
     const key = `${phoneNo}`;
-    const nid = "";
     console.log(key)
     try {
       let result = await contract.evaluateTransaction(

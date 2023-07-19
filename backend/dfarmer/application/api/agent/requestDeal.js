@@ -2,8 +2,8 @@ module.exports = {
   requestDeal: async (req, res, contract, txId, createTxn) => {
     // API implementation
     const { agentId, landOwnerNid, landOwnerPhoneNo, farmerNid, farmerPhoneNo, landId, landAmount, harvestType} = req.body;
-        const landownerId = `landowner_${landOwnerPhoneNo}`
-        const farmerId = `farmer_${farmerPhoneNo}`
+        const landownerId = `${landOwnerPhoneNo}`
+        const farmerId = `${farmerPhoneNo}`
         const key = `req_deal_${landOwnerId}_${farmerId}_${landId}`
         try {
           let result = await contract.evaluateTransaction(
@@ -41,7 +41,7 @@ module.exports = {
           res.send(result);
         } catch (error) {
           console.log(`*** Successfully caught the error: \n    ${error}\n`);
-          res.send('failed');
+          res.send('failhttp://localhost:5173/ed');
         }
   },
 };

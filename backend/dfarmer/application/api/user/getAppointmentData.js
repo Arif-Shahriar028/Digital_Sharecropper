@@ -1,12 +1,12 @@
 module.exports = {
   getAppointment: async (req, res, contract) => {
     // API implementation
-    const key = req.params.key;
-        console.log('key is:', key);
+    const userId = req.params.userId;
+        console.log('key is:', userId);
         try {
           const result = await contract.evaluateTransaction(
             'GetAppointment',
-            key
+            userId
           );
           res.send(result.toString());
         } catch (error) {

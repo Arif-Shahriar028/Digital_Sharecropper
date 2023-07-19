@@ -1,12 +1,14 @@
 module.exports = {
   requestLand: async (req, res, contract, txId, createTxn) => {
     // API implementation
-    const { key, name, landUnit, landLocation, experience, nid } = req.body;
+    const { userId, name, landUnit, landLocation, experience, nid } = req.body;
     // key would be fetch from cookie of browser
+    const key = `requestland_${userId}`;
     try {
       let result = await contract.evaluateTransaction(
         'RequestLand',
         key,
+        userId,
         txId,
         name,
         nid,
