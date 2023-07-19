@@ -46,13 +46,13 @@ const Navbar = () => {
             >
               <Link to="/">Home</Link>
             </li>
-            <li
+            {/* <li
               className={`${styles.nav_link} ${
                 pathname == "/appointment" && styles.nav_link_active
               }`}
             >
               <Link to="/appointment">Appointment</Link>
-            </li>
+            </li> */}
             <li
               className={`${styles.nav_link} ${
                 pathname == "/request" && styles.nav_link_active

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { MdClear } from "react-icons/md";
 import { distictsData } from "./districts";
 import { upozillasData } from "./upozilla";
-import { landRequest } from "../../Api/api";
+// import { landRequest } from "../../Api/api";
 
 const CreateReq = ({ setReqModal }) => {
   // const [name, setName] = useState("");
@@ -14,14 +14,14 @@ const CreateReq = ({ setReqModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await landRequest({
-      // userId,
-      // name,
-      landUnit,
-      landLocation,
-      experience,
-    });
-    console.log(res);
+    // const res = await landRequest({
+    //   // userId,
+    //   // name,
+    //   landUnit,
+    //   landLocation,
+    //   experience,
+    // });
+    // console.log(res);
   };
   return (
     <React.Fragment>

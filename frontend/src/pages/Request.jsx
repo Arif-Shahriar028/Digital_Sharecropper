@@ -21,6 +21,7 @@ const reqLists = [
 ];
 const Request = () => {
   const [reqModal, setReqModal] = useState(false);
+  const [activeReq, setActiveReq] = useState("Approved");
   return (
     <React.Fragment>
       {reqModal && (
@@ -29,7 +30,7 @@ const Request = () => {
         </Modal>
       )}
       <div className="w-full min-h-screen flex justify-center items-start">
-        <div className="w-[70%] flex flex-col mt-36">
+        <div className="w-[70%] flex flex-col mt-32">
           <div className="w-full flex justify-end items-center">
             <button
               onClick={() => {
@@ -41,8 +42,30 @@ const Request = () => {
             </button>
           </div>
 
-          <div className="w-full flex justify-center items-center">
-            <table className="w-full table-auto mt-10 border-[1px]">
+          <div className="w-full flex flex-col justify-center items-center">
+            <div className="w-full flex justify-center mt-5">
+              <div
+                onClick={() => setActiveReq("Approved")}
+                className={`w-full rounded-md flex justify-center items-center p-2 ${
+                  activeReq === "Approved"
+                    ? "bg-[#42A045] text-white text-lg"
+                    : "bg-gray-300"
+                }`}
+              >
+                Landowner requests
+              </div>
+              <div
+                onClick={() => setActiveReq("Pending")}
+                className={`w-full rounded-md flex justify-center items-center p-2 ${
+                  activeReq === "Pending"
+                    ? "bg-[#42A045] text-lg text-white"
+                    : "bg-gray-300"
+                }`}
+              >
+                Farmer requests
+              </div>
+            </div>
+            <table className="w-full table-auto border-[1px] mt-3">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                   {/* <th className="py-3 px-6 text-center"></th> */}

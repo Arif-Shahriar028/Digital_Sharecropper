@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import Request from "./pages/Request";
 import Appointment from "./pages/Appointment";
 import Deal from "./pages/Deal";
+import AdminAgentLogin from "./pages/AdminAgentLogin";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/request" element={<Request />} />
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/deal" element={<Deal />} />
+        <Route path="/adminagentlogin" element={<AdminAgentLogin />} />
       </Routes>
       <Footer />
     </React.Fragment>
