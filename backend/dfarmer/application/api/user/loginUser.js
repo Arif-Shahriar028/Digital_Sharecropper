@@ -1,7 +1,7 @@
 module.exports = {
   login: async (req, res, contract) => {
     // API implementation
-    const { phoneNo, password, userType } = req.body;
+    const { phoneNo, password} = req.body;
         const key = `${phoneNo}`;
         try {
           let result = await contract.evaluateTransaction(
