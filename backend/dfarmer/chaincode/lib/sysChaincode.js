@@ -55,12 +55,26 @@ class SysChanicode extends Contract {
     return userJSON.toString();
   }
 
+
+  //*=========== get user by id ==============
+  async GetUser(ctx, userId) {
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.DocType = 'user';
+    queryString.selector.Key = userId;
+    let resultsIterator = await ctx.stub.getQueryResult(
+      JSON.stringify(queryString)
+    );
+    let results = await this.GetAllResults(resultsIterator, false);
+    return JSON.stringify(results);
+  }
+
   //*============= Farmer Request for land =============
   async RequestLand(ctx, key, userId, txId, name, nid, landLocation, landAmount, expTime) {
     // ctx is transaction context
     const requestLand = {
       Key: key,
-      UserId: userId,
+      LandOwnerId: userId,
       TxnId: txId,
       Name: name,
       Nid: nid,
@@ -115,17 +129,16 @@ class SysChanicode extends Contract {
   }
 
   //*==================== Landowner submit form for lending land ==================
-  async RequentLendLand(ctx, key, txId, userId, nid, landId, landLocation, landAmount, landType) {
+  async RequestLendLand(ctx, key, txId, userId, nid, landId, landLocation, landAmount) {
     // ctx is transaction context
     const requestLendLand = {
       Key: key,
       TxnId: txId,
-      UserId: userId,
+      LandOwnerId: userId,
       Nid: nid,
       LandId: landId,
       LandLocation: landLocation,
       LandAmount: landAmount,
-      LandType: landType,
       DocType: 'lendLand',
     };
     //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'

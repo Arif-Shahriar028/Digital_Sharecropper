@@ -1,7 +1,14 @@
+const getUserApi = require('./getUser.js');
+
 module.exports = {
   requestLand: async (req, res, contract, txId, createTxn) => {
-    // API implementation
-    const { userId, name, landUnit, landLocation, experience, nid } = req.body;
+    const { userId, landAmount, landLocation, experience } = req.body;
+
+    const data = await getUserApi.getUser(userId, contract);
+    const user = JSON.parse(data);
+    console.log(`checkpoint 1 user: ${user}`);
+    const nid = user[0].Record.Nid;
+    const name = user[0].Record.Name;
     // key would be fetch from cookie of browser
     const key = `requestland_${userId}`;
     try {
@@ -19,6 +26,7 @@ module.exports = {
       await contract.submitTransaction(
         'RequestLand',
         key,
+        userId,
         txId,
         name,
         nid,
@@ -26,7 +34,9 @@ module.exports = {
         landAmount,
         experience
       );
-      console.log(`Request for land request by ${name} is successful.\n Result: ${result}\n`);
+      console.log(
+        `Request for land request by ${name} is successful.\n Result: ${result}\n`
+      );
       createTxn(txId, `Land Request by ${key} `, landLocation);
       res.send(result);
     } catch (error) {
