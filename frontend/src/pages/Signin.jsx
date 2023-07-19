@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { userSignin } from "../Api/api";
 
 const Signin = () => {
-  const [phone, setPhone] = useState("");
+  const [phoneNo, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await userSignin({ phoneNo, password });
+    console.log(res);
+  };
   return (
     <React.Fragment>
       <div className="w-full h-screen flex justify-center items-center">
@@ -23,7 +28,7 @@ const Signin = () => {
             <input
               type="text"
               placeholder="Phone number"
-              value={phone}
+              value={phoneNo}
               onChange={(e) => setPhone(e.target.value)}
               style={{
                 borderTopLeftRadius: "25px",

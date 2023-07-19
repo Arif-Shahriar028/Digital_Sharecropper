@@ -3,20 +3,25 @@ import React, { useState } from "react";
 import { MdClear } from "react-icons/md";
 import { distictsData } from "./districts";
 import { upozillasData } from "./upozilla";
-const CreateReq = ({ setReqModal }) => {
-  const [landUnit, setLandUnit] = useState("");
-  const [location, setLocation] = useState("");
-  const [experience, setExperience] = useState("");
-  const [nid, setNid] = useState("null");
+import { landRequest } from "../../Api/api";
 
-  const handleSubmit = (e) => {
+const CreateReq = ({ setReqModal }) => {
+  // const [name, setName] = useState("");
+  const [landUnit, setLandUnit] = useState("");
+  const [landLocation, setLandLocation] = useState("");
+  const [experience, setExperience] = useState("");
+  const [landID, setLandID] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
+    const res = await landRequest({
+      // userId,
+      // name,
       landUnit,
-      location,
+      landLocation,
       experience,
-      nid,
     });
+    console.log(res);
   };
   return (
     <React.Fragment>
@@ -52,11 +57,11 @@ const CreateReq = ({ setReqModal }) => {
               borderTopLeftRadius: "25px",
               borderBottomRightRadius: "25px",
             }}
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={landLocation}
+            onChange={(e) => setLandLocation(e.target.value)}
             className="w-full p-2 px-5 bg-white outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
           >
-            <option value="">Select District</option>
+            <option value="">Select Location</option>
             {distictsData.map((dist) =>
               upozillasData.map(
                 (upo) =>
@@ -81,15 +86,16 @@ const CreateReq = ({ setReqModal }) => {
           />
           <input
             type="number"
-            placeholder="NID"
-            value={nid}
-            onChange={(e) => setNid(e.target.value)}
+            placeholder="Land ID"
+            value={landID}
+            onChange={(e) => setLandID(e.target.value)}
             style={{
               borderTopLeftRadius: "25px",
               borderBottomRightRadius: "25px",
             }}
             className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
           />
+
           <div className="w-full flex justify-center items-center">
             <button
               type="submit"

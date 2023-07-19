@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { userSignin } from "../Api/api";
 
 const Signup = () => {
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNo, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState("");
-
-  const handleSubmit = (e) => {
+  const [userType, setType] = useState("");
+  // name, phoneNo, password, userType;
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ name, phone, password, type });
+    const res = await userSignin({ name, phoneNo, password, userType });
+    console.log(res);
   };
   return (
     <React.Fragment>
@@ -36,7 +38,7 @@ const Signup = () => {
             <input
               type="number"
               placeholder="Phone number"
-              value={phone}
+              value={phoneNo}
               onChange={(e) => setPhone(e.target.value)}
               style={{
                 borderTopLeftRadius: "25px",
@@ -60,14 +62,14 @@ const Signup = () => {
                 borderTopLeftRadius: "25px",
                 borderBottomRightRadius: "25px",
               }}
-              value={type}
+              value={userType}
               onChange={(e) => setType(e.target.value)}
               className=" p-4 w-[80%] outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             >
               <option value="">Select user type</option>
-              <option value="Farmer">Farmer</option>
-              <option value="Landowner">Landowner</option>
-              <option value="Investor">Investor</option>
+              <option value="farmer">Farmer</option>
+              <option value="landowner">Landowner</option>
+              <option value="investor">Investor</option>
             </select>
             <div className="">
               <p className="text-md text-black">

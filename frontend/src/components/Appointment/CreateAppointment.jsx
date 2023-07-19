@@ -1,16 +1,24 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import { MdClear } from "react-icons/md";
 import { distictsData } from "../Request/districts";
 import { upozillasData } from "../Request/upozilla";
+import { appointmentReq } from "../../Api/api";
 
 const CreateAppointment = ({ setAppointModal }) => {
   const [appointmentTime, setAppointmentTime] = useState("");
   const [place, setPlace] = useState("");
   const [userId, setUserId] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ appointmentTime, place, userId });
+    const res = await appointmentReq({
+      userId,
+      // agentId,
+      appointmentTime,
+      place,
+    });
+    console.log(res);
   };
   return (
     <React.Fragment>
