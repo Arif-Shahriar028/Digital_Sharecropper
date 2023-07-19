@@ -2,7 +2,7 @@ module.exports = {
   login: async (req, res, contract) => {
     // API implementation
     const { phoneNo, password, userType } = req.body;
-        const key = `${userType}_${phoneNo}`;
+        const key = `${phoneNo}`;
         try {
           let result = await contract.evaluateTransaction(
             'FindUser',

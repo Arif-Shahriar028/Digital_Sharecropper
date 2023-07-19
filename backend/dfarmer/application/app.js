@@ -46,6 +46,7 @@ const getDealByLandownerApi = require('./api/user/getDealByLandowner.js');
 const investReqApi = require('./api/user/investReq.js');
 const lendLandApi = require('./api/user/lendLand.js');
 const requestLandApi = require('./api/user/requestLand.js');
+const updateProfileApi = require('./api/user/updateProfile.js');
 
 
 
@@ -124,9 +125,14 @@ async function main() {
 
 
       //*============== Login user ======================
-      app.post('/login/user', async (req, res) => {
+      app.post('/login', async (req, res) => {
         const txId = getRandomString(18);
         await loginApi.login(req, res, contract, txId);
+      });
+
+      app.post('/update-profile', async (req, res) => {
+        const txId = getRandomString(18);
+        await .registerUser(req, res, contract, txId, createTxn);
       });
 
       //*====================== Farmer Request for land rent ========================
@@ -144,7 +150,7 @@ async function main() {
 
 
       //*================== Farmer and landowner get appointment ===================
-      app.get('/user/:key', async (req, res) => {
+      app.get('/user/get-appointment/:userId', async (req, res) => {
         await getAppointmentDataApi.getAppointment(req, res, contract);
         
       });
@@ -172,14 +178,14 @@ async function main() {
       });
 
       //*==================== Get Deal Info by farmer ====================
-      app.get('/landowner/current-deal/:userId', async (req, res) => {
+      app.get('/farmer/current-deal/:userId', async (req, res) => {
         await getDealByFarmerApi.getDealByFarmer(req, res, contract);
       });
 
 
       //*==================== Get Deal Info by landowner ====================
-      app.get('/farmer/current-deal/:userId', async (req, res) => {
-        await getDealByLandownerApi.getDealByLandOwner(req, res, contract, txId);
+      app.get('/landowner/current-deal/:userId', async (req, res) => {
+        await getDealByLandownerApi.getDealByLandOwner(req, res, contract);
         
       });
 
@@ -356,16 +362,16 @@ async function main() {
         }
       };
 
-      //*=================== Get Transaction ===================
-      app.get('/transaction', async (req, res) => {
-        try {
-          const result = await contract.evaluateTransaction('GetTxn');
+      // //*=================== Get Transaction ===================
+      // app.get('/transaction', async (req, res) => {
+      //   try {
+      //     const result = await contract.evaluateTransaction('GetTxn');
 
-          res.send(result);
-        } catch (error) {
-          res.status(400).send(error.toString());
-        }
-      });
+      //     res.send(result);
+      //   } catch (error) {
+      //     res.status(400).send(error.toString());
+      //   }
+      // });
 
       function getRandomString(length) {
         const characters =

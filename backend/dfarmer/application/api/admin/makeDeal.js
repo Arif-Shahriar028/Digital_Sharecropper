@@ -2,8 +2,8 @@ module.exports = {
   makeDeal: async (req, res, contract, txId, createTxn) => {
     // API implementation
     const { landOwnerNid, landOwnerPhoneNo, farmerNid, farmerPhoneNo, landId, landAmount, harvestType} = req.body;
-        const landownerId = `landowner_${landOwnerPhoneNo}`
-        const farmerId = `farmer_${farmerPhoneNo}`
+        const landownerId = `${landOwnerPhoneNo}`
+        const farmerId = `${farmerPhoneNo}`
         const key = `deal_${landOwnerId}_${farmerId}_${landId}`
         try {
           let result = await contract.evaluateTransaction(

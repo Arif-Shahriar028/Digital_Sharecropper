@@ -1,5 +1,5 @@
 module.exports = {
-  getDealByLandOwner: async (req, res, contract, txId) => {
+  getDealByLandOwner: async (req, res, contract) => {
     // API implementation
     const userId = req.params.userId;
     try {
