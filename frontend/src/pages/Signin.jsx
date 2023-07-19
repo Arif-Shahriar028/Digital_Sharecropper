@@ -1,15 +1,23 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { userSignin } from "../Api/api";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { userSignin } from '../Api/api';
 
 const Signin = () => {
-  const [phoneNo, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [phoneNo, setPhone] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await userSignin({ phoneNo, password });
     console.log(res);
+    if (res.status === 200) {
+      const { Key, Nid, Type } = res.data;
+      localStorage.setItem('key', Key);
+      localStorage.setItem('Nid', Nid);
+      localStorage.setItem('Type', Type);
+      navigate('/');
+    }
   };
   return (
     <React.Fragment>
@@ -31,8 +39,8 @@ const Signin = () => {
               value={phoneNo}
               onChange={(e) => setPhone(e.target.value)}
               style={{
-                borderTopLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />
@@ -42,8 +50,8 @@ const Signin = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
-                borderTopLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />

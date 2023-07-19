@@ -1,27 +1,42 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
-import { MdClear } from "react-icons/md";
-import { distictsData } from "./districts";
-import { upozillasData } from "./upozilla";
+import React, { useState } from 'react';
+import { MdClear } from 'react-icons/md';
+import { distictsData } from './districts';
+import { upozillasData } from './upozilla';
+import { landRequestForFarmer, landRequestForOwner } from '../../Api/api';
 // import { landRequest } from "../../Api/api";
 
 const CreateReq = ({ setReqModal }) => {
   // const [name, setName] = useState("");
-  const [landUnit, setLandUnit] = useState("");
-  const [landLocation, setLandLocation] = useState("");
-  const [experience, setExperience] = useState("");
-  const [landID, setLandID] = useState("");
+  const [landUnit, setLandUnit] = useState('');
+  const [landLocation, setLandLocation] = useState('');
+  const [experience, setExperience] = useState('');
+  const [landId, setLandID] = useState('');
+  const [landAmount, setLandAmount] = useState('');
+
+  const userType = localStorage.getItem('Type');
+  const userId = localStorage.getItem('key');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const res = await landRequest({
-    //   // userId,
-    //   // name,
-    //   landUnit,
-    //   landLocation,
-    //   experience,
-    // });
-    // console.log(res);
+
+    if (userType === 'landowner') {
+      const res = await landRequestForOwner({
+        userId,
+        landId,
+        landAmount,
+        landLocation,
+      });
+      console.log(res);
+    } else {
+      const res = await landRequestForFarmer({
+        userId,
+        landLocation,
+        landAmount,
+        experience,
+      });
+      console.log(res);
+    }
   };
   return (
     <React.Fragment>
@@ -41,21 +56,37 @@ const CreateReq = ({ setReqModal }) => {
           onSubmit={handleSubmit}
           className="w-full flex flex-col gap-y-5 items-start justify-start p-4"
         >
-          <input
-            type="number"
-            placeholder="Land unit"
-            value={landUnit}
-            onChange={(e) => setLandUnit(e.target.value)}
-            style={{
-              borderTopLeftRadius: "25px",
-              borderBottomRightRadius: "25px",
-            }}
-            className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
-          />
+          {userType === 'farmer' ? (
+            <input
+              type="number"
+              placeholder="Experience"
+              value={experience}
+              onChange={(e) => setExperience(e.target.value)}
+              style={{
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
+              }}
+              className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
+            />
+          ) : (
+            <>
+              <input
+                type="number"
+                placeholder="Land ID"
+                value={landId}
+                onChange={(e) => setLandID(e.target.value)}
+                style={{
+                  borderTopLeftRadius: '25px',
+                  borderBottomRightRadius: '25px',
+                }}
+                className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
+              />
+            </>
+          )}
           <select
             style={{
-              borderTopLeftRadius: "25px",
-              borderBottomRightRadius: "25px",
+              borderTopLeftRadius: '25px',
+              borderBottomRightRadius: '25px',
             }}
             value={landLocation}
             onChange={(e) => setLandLocation(e.target.value)}
@@ -75,23 +106,12 @@ const CreateReq = ({ setReqModal }) => {
           </select>
           <input
             type="number"
-            placeholder="Experience"
-            value={experience}
-            onChange={(e) => setExperience(e.target.value)}
+            placeholder="Land amount (Acre)"
+            value={landAmount}
+            onChange={(e) => setLandAmount(e.target.value)}
             style={{
-              borderTopLeftRadius: "25px",
-              borderBottomRightRadius: "25px",
-            }}
-            className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
-          />
-          <input
-            type="number"
-            placeholder="Land ID"
-            value={landID}
-            onChange={(e) => setLandID(e.target.value)}
-            style={{
-              borderTopLeftRadius: "25px",
-              borderBottomRightRadius: "25px",
+              borderTopLeftRadius: '25px',
+              borderBottomRightRadius: '25px',
             }}
             className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
           />

@@ -1,17 +1,21 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { userSignin } from "../Api/api";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { userSignup } from '../Api/api';
 
 const Signup = () => {
-  const [name, setName] = useState("");
-  const [phoneNo, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [userType, setType] = useState("");
+  const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [phoneNo, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [userType, setType] = useState('');
+  const [nid, setNid] = useState('');
   // name, phoneNo, password, userType;
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await userSignin({ name, phoneNo, password, userType });
-    console.log(res);
+    const res = await userSignup({ name, phoneNo, nid, password, userType });
+    if (res.status === 200) {
+      navigate('/signin');
+    }
   };
   return (
     <React.Fragment>
@@ -30,8 +34,8 @@ const Signup = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{
-                borderTopLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />
@@ -41,8 +45,19 @@ const Signup = () => {
               value={phoneNo}
               onChange={(e) => setPhone(e.target.value)}
               style={{
-                borderTopLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
+              }}
+              className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
+            />
+            <input
+              type="number"
+              placeholder="NID"
+              value={nid}
+              onChange={(e) => setNid(e.target.value)}
+              style={{
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />
@@ -52,15 +67,15 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
-                borderTopLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />
             <select
               style={{
-                borderTopLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
               }}
               value={userType}
               onChange={(e) => setType(e.target.value)}

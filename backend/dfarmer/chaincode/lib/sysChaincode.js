@@ -12,8 +12,6 @@ const sortKeysRecursive = require('sort-keys-recursive');
 const { Contract } = require('fabric-contract-api');
 
 class SysChanicode extends Contract {
-
-
   //*============= Create Account =============
   async CreateAccount(ctx, key, txId, name, phoneNo, nid, userType, password) {
     // ctx is transaction context
@@ -36,25 +34,60 @@ class SysChanicode extends Contract {
     return JSON.stringify(user);
   }
 
+  //*================ Create Admin ===================
+  async CreateAdmin(ctx, key, email, password) {
+    // ctx is transaction context
+    const user = {
+      Key: key,
+      Email: email,
+      Password: password,
+      DocType: 'admin',
+    };
+    //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
+    await ctx.stub.putState(
+      // The stub encapsulates the APIs between the chaincode implementation and the Fabric peer.
+      key,
+      Buffer.from(stringify(sortKeysRecursive(user)))
+    );
+    return JSON.stringify(user);
+  }
+
+  //*================ Create Agent ===================
+  async CreateAdmin(ctx, key, email, location, password) {
+    // ctx is transaction context
+    const user = {
+      Key: key,
+      Email: email,
+      Location: location,
+      Password: password,
+      DocType: 'agent',
+    };
+    //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
+    await ctx.stub.putState(
+      // The stub encapsulates the APIs between the chaincode implementation and the Fabric peer.
+      key,
+      Buffer.from(stringify(sortKeysRecursive(user)))
+    );
+    return JSON.stringify(user);
+  }
+
   //*================ Get user ==============
   async FindUser(ctx, key, phoneNo, password) {
-
     const userJSON = await ctx.stub.getState(key); // get the asset from chaincode state
     if (!userJSON || userJSON.length === 0) {
       throw new Error(`The user for user id ${courtId} does not exist`);
     }
 
-    const user = JSON.parse(userJSON.toString());
-    if (user.PhoneNo !== phoneNo) {
-      throw new Error('user phone-no and password do not matched!');
-    }
+    // const user = JSON.parse(userJSON.toString());
+    // if (user.PhoneNo !== phoneNo) {
+    //   throw new Error('user phone-no and password do not matched!');
+    // }
     if (user.Password !== password) {
       throw new Error('user phone-no and password do not matched!');
     }
 
     return userJSON.toString();
   }
-
 
   //*=========== get user by id ==============
   async GetUser(ctx, userId) {
@@ -70,11 +103,22 @@ class SysChanicode extends Contract {
   }
 
   //*============= Farmer Request for land =============
-  async RequestLand(ctx, key, userId, txId, name, nid, landLocation, landAmount, expTime) {
+
+  async RequestLand(
+    ctx,
+    key,
+    userId,
+    txId,
+    name,
+    nid,
+    landLocation,
+    landAmount,
+    expTime
+  ) {
     // ctx is transaction context
     const requestLand = {
       Key: key,
-      LandOwnerId: userId,
+      FarmerId: userId,
       TxnId: txId,
       Name: name,
       Nid: nid,
@@ -92,9 +136,29 @@ class SysChanicode extends Contract {
     return JSON.stringify(requestLand);
   }
 
+  //*=============== Farmer get their requests ==================
+  async GetAppointment(ctx, userId) {
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.DocType = 'landreq';
+    queryString.selector.FarmerId = userId;
+    let resultsIterator = await ctx.stub.getQueryResult(
+      JSON.stringify(queryString)
+    );
+    let results = await this.GetAllResults(resultsIterator, false);
+    return JSON.stringify(results);
+  }
 
   //*============== Agent set appointment for farmer to meet ================
-  async SetAppointment(ctx, key, txId, userId, agentId, appointmentTime, place) {
+  async SetAppointment(
+    ctx,
+    key,
+    txId,
+    userId,
+    agentId,
+    appointmentTime,
+    place
+  ) {
     // ctx is transaction context
     const setAppointment = {
       Key: key,
@@ -109,11 +173,10 @@ class SysChanicode extends Contract {
     await ctx.stub.putState(
       // The stub encapsulates the APIs between the chaincode implementation and the Fabric peer.
       key,
-      Buffer.froappointmentTime, place, userId, agentIdm(stringify(sortKeysRecursive(setAppointment)))
+      Buffer.from(stringify(sortKeysRecursive(setAppointment)))
     );
     return JSON.stringify(setAppointment);
   }
-
 
   //*=============== Farmer get appointment from the agent ==================
   async GetAppointment(ctx, userId) {
@@ -129,7 +192,16 @@ class SysChanicode extends Contract {
   }
 
   //*==================== Landowner submit form for lending land ==================
-  async RequestLendLand(ctx, key, txId, userId, nid, landId, landLocation, landAmount) {
+  async RequestLendLand(
+    ctx,
+    key,
+    txId,
+    userId,
+    nid,
+    landId,
+    landLocation,
+    landAmount
+  ) {
     // ctx is transaction context
     const requestLendLand = {
       Key: key,
@@ -150,14 +222,41 @@ class SysChanicode extends Contract {
     return JSON.stringify(requestLendLand);
   }
 
+  //*=============== Landowner get their requests ==================
+  async GetRequestByLandOwner(ctx, userId) {
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.DocType = 'lendLand';
+    queryString.selector.LandOwnerId = userId;
+    let resultsIterator = await ctx.stub.getQueryResult(
+      JSON.stringify(queryString)
+    );
+    let results = await this.GetAllResults(resultsIterator, false);
+    return JSON.stringify(results);
+  }
+
   //*======================== Agent submit a deal request to the admin ======================
-  async RequestDeal(ctx, key, txId, agentId, landOwnerId, farmerId, landOwnerNid, landOwnerPhoneNo, farmerNid, farmerPhoneNo, landId, landAmount, harvestType) {
+  async RequestDeal(
+    ctx,
+    key,
+    txId,
+    agentId,
+    landOwnerId,
+    farmerId,
+    landOwnerNid,
+    landOwnerPhoneNo,
+    farmerNid,
+    farmerPhoneNo,
+    landId,
+    landAmount,
+    harvestType
+  ) {
     // ctx is transaction context
     const deal = {
       Key: key,
       TxnId: txId,
       AgentId: agentId,
-      landOwnerId: userId,
+      landOwnerId: landOwnerId,
       FarmerId: farmerId,
       LandOwnerNid: landOwnerNid,
       LandOwnerPhoneNo: landOwnerPhoneNo,
@@ -178,9 +277,21 @@ class SysChanicode extends Contract {
     return JSON.stringify(deal);
   }
 
-
   //*==================== Make a deal or contract by admin ==================
-  async CreatDeal(ctx, key, txId, landOwnerId, farmerId, landOwnerNid, landOwnerPhoneNo, farmerNid, farmerPhoneNo, landId, landAmount, harvestType) {
+  async CreatDeal(
+    ctx,
+    key,
+    txId,
+    landOwnerId,
+    farmerId,
+    landOwnerNid,
+    landOwnerPhoneNo,
+    farmerNid,
+    farmerPhoneNo,
+    landId,
+    landAmount,
+    harvestType
+  ) {
     // ctx is transaction context
     const deal = {
       Key: key,
@@ -205,7 +316,6 @@ class SysChanicode extends Contract {
     );
     return JSON.stringify(deal);
   }
-
 
   //*================ Get deal info by landowner ==================
   async GetDealByLandOwner(ctx, userId) {
@@ -260,7 +370,16 @@ class SysChanicode extends Contract {
   }
 
   //*==================== Request Invest by investor to the company ==================
-  async RequestInvest(ctx, key, txId, investorId, investorName, investorNid, investAmount, transactionId) {
+  async RequestInvest(
+    ctx,
+    key,
+    txId,
+    investorId,
+    investorName,
+    investorNid,
+    investAmount,
+    transactionId
+  ) {
     // ctx is transaction context
     const invest = {
       Key: key,
@@ -279,7 +398,6 @@ class SysChanicode extends Contract {
     );
     return JSON.stringify(invest);
   }
-
 
   //*================= Get investment info by investor id ===================
   async GetInvestment(ctx, userId) {
@@ -307,7 +425,6 @@ class SysChanicode extends Contract {
     return JSON.stringify(results);
   }
 
- 
   //*================= Set count ===================
   async SetCount(ctx, key, court, jail, passport, police, criminal) {
     // ctx is transaction context
@@ -340,7 +457,6 @@ class SysChanicode extends Contract {
     let results = await this.GetAllResults(resultsIterator, false);
     return JSON.stringify(results);
   }
-  
 
   //*================= Create Transaction ==============
   async CreateTxn(ctx, key, txId, date, time, type, name) {
