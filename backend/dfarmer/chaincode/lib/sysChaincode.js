@@ -102,6 +102,19 @@ class SysChanicode extends Contract {
     return JSON.stringify(results);
   }
 
+  //*=========== get user by nid ==============
+  async GetUserByNid(ctx, nid) {
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.DocType = 'user';
+    queryString.selector.Nid = nid;
+    let resultsIterator = await ctx.stub.getQueryResult(
+      JSON.stringify(queryString)
+    );
+    let results = await this.GetAllResults(resultsIterator, false);
+    return JSON.stringify(results);
+  }
+
   //*============= Farmer Request for land =============
 
   async RequestLand(
@@ -227,6 +240,19 @@ class SysChanicode extends Contract {
     let queryString = {};
     queryString.selector = {};
     queryString.selector.DocType = 'lendLand';
+    queryString.selector.FarmerId = userId;
+    let resultsIterator = await ctx.stub.getQueryResult(
+      JSON.stringify(queryString)
+    );
+    let results = await this.GetAllResults(resultsIterator, false);
+    return JSON.stringify(results);
+  }
+
+  //*=============== Farmer get their requests ==================
+  async GetRequestByFarmer(ctx, userId) {
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.DocType = 'landreq';
     queryString.selector.LandOwnerId = userId;
     let resultsIterator = await ctx.stub.getQueryResult(
       JSON.stringify(queryString)
@@ -237,35 +263,25 @@ class SysChanicode extends Contract {
 
   //*======================== Agent submit a deal request to the admin ======================
   async RequestDeal(
-    ctx,
     key,
     txId,
     agentId,
-    landOwnerId,
-    farmerId,
     landOwnerNid,
-    landOwnerPhoneNo,
     farmerNid,
-    farmerPhoneNo,
     landId,
     landAmount,
-    harvestType
+    status
   ) {
     // ctx is transaction context
     const deal = {
       Key: key,
       TxnId: txId,
       AgentId: agentId,
-      landOwnerId: landOwnerId,
-      FarmerId: farmerId,
       LandOwnerNid: landOwnerNid,
-      LandOwnerPhoneNo: landOwnerPhoneNo,
       FarmerNid: farmerNid,
-      FarmerPhoneNo: farmerPhoneNo,
       LandId: landId,
       LandAmount: landAmount,
-      LandLocation: landLocation,
-      HarvestType: harvestType,
+      Status: status,
       DocType: 'req-deal',
     };
     //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
@@ -277,35 +293,40 @@ class SysChanicode extends Contract {
     return JSON.stringify(deal);
   }
 
+  //*==================== Get request deal data by land id =============
+  async GetDealReqByLandId(ctx, landId) {
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.DocType = 'req-deal';
+    queryString.selector.LandId = landId;
+    let resultsIterator = await ctx.stub.getQueryResult(
+      JSON.stringify(queryString)
+    );
+    let results = await this.GetAllResults(resultsIterator, false);
+    return JSON.stringify(results);
+  }
+
   //*==================== Make a deal or contract by admin ==================
   async CreatDeal(
-    ctx,
     key,
     txId,
-    landOwnerId,
-    farmerId,
+    agentId,
     landOwnerNid,
-    landOwnerPhoneNo,
     farmerNid,
-    farmerPhoneNo,
     landId,
     landAmount,
-    harvestType
+    status
   ) {
     // ctx is transaction context
     const deal = {
       Key: key,
-      TxnId: txId,
-      landOwnerId: userId,
-      FarmerId: farmerId,
+      TxId: txId,
+      AgentId: agentId,
       LandOwnerNid: landOwnerNid,
-      LandOwnerPhoneNo: landOwnerPhoneNo,
       FarmerNid: farmerNid,
-      FarmerPhoneNo: farmerPhoneNo,
       LandId: landId,
       LandAmount: landAmount,
-      LandLocation: landLocation,
-      HarvestType: harvestType,
+      Status: status,
       DocType: 'deal',
     };
     //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'

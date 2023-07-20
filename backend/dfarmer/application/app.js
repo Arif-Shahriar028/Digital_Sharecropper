@@ -47,6 +47,8 @@ const investReqApi = require('./api/user/investReq.js');
 const lendLandApi = require('./api/user/lendLand.js');
 const requestLandApi = require('./api/user/requestLand.js');
 const updateProfileApi = require('./api/user/updateProfile.js');
+const getReqByLandOwnerApi = require('./api/user/getReqByLandOwner.js');
+const getReqByFarmerApi = require('./api/user/getReqByFarmer.js');
 
 function prettyJSONString(inputString) {
   return JSON.stringify(JSON.parse(inputString), null, 2);
@@ -159,6 +161,16 @@ async function main() {
         await lendLandApi.lendLand(req, res, contract, txId, createTxn);
       });
 
+      //*================== get req by land owner =============
+      app.post('/landowner/get-req', async (req, res) => {
+        await getReqByLandOwnerApi.getReq(req, res, contract);
+      });
+
+      //*================== get req by farmer =============
+      app.post('/farmer/get-req', async (req, res) => {
+        await getReqByFarmerApi.getReq(req, res, contract);
+      });
+
       //*================= Agent requst a deal to admin ======================
       app.post('/agent/req-deal', async (req, res) => {
         const txId = getRandomString(18);
@@ -188,7 +200,7 @@ async function main() {
       });
 
       //*================= Get investment details by investor =================
-      app.get('/investor/investment/:userId', async (req, res) => {
+      app.get('/investor/investment/', async (req, res) => {
         // const { nid } = req.body;
         await getDataByInvestorApi.getInvestData(req, res, contract);
       });

@@ -6,7 +6,6 @@ module.exports = {
 
     const data = await getUserApi.getUser(userId, contract);
     const user = JSON.parse(data);
-    console.log(`checkpoint 1 user: ${user}`);
     const nid = user[0].Record.Nid;
     const name = user[0].Record.Name;
     // key would be fetch from cookie of browser
