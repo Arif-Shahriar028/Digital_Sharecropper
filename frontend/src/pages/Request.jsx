@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
-import Modal from '../components/Modal/Modal';
-import CreateReq from '../components/Request/CreateReq';
-import RequestForLandowner from '../components/Request/RequestForLandowner';
-import RequestsForAgent from '../components/Request/RequestsForAgent';
-import RequestsForFarmer from '../components/Request/RequestsForFarmer';
+import React, { useState } from "react";
+import Modal from "../components/Modal/Modal";
+import CreateReq from "../components/Request/CreateReq";
+import RequestForLandowner from "../components/Request/RequestForLandowner";
+import RequestsForAgent from "../components/Request/RequestsForAgent";
+import RequestsForFarmer from "../components/Request/RequestsForFarmer";
+import CreateReqForInvestor from "../components/Request/CreateReqForInvestor";
 
 const Request = () => {
   const [reqModal, setReqModal] = useState(false);
 
-  const userType = localStorage.getItem('Type');
+  const userType = localStorage.getItem("Type");
 
   return (
     <React.Fragment>
       {reqModal && (
         <Modal>
-          <CreateReq setReqModal={setReqModal} />
+          {userType === "investor" ? (
+            <CreateReqForInvestor setReqModal={setReqModal} />
+          ) : (
+            <CreateReq setReqModal={setReqModal} />
+          )}
         </Modal>
       )}
       <div className="w-full min-h-screen flex justify-center items-start">
@@ -30,9 +35,9 @@ const Request = () => {
             </button>
           </div>
 
-          {userType === 'landowner' && <RequestForLandowner />}
-          {userType === 'farmer' && <RequestsForFarmer />}
-          {userType === 'agent' && <RequestsForAgent />}
+          {userType === "landowner" && <RequestForLandowner />}
+          {userType === "farmer" && <RequestsForFarmer />}
+          {userType === "agent" && <RequestsForAgent />}
         </div>
       </div>
     </React.Fragment>

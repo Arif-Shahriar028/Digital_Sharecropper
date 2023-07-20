@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import CreateDeal from '../components/Deal/CreateDeal';
-import Modal from '../components/Modal/Modal';
-import DealForLandowner from '../components/Deal/DealForLandowner';
-import DealForFarmer from '../components/Deal/DealForFarmer';
-import DealForAgent from '../components/Deal/DealForAgent';
+import React, { useState } from "react";
+import CreateDeal from "../components/Deal/CreateDeal";
+import Modal from "../components/Modal/Modal";
+import DealForLandowner from "../components/Deal/DealForLandowner";
+import DealForFarmer from "../components/Deal/DealForFarmer";
+import DealForAgent from "../components/Deal/DealForAgent";
+import DealForAdmin from "../components/Deal/DealForAdmin";
 
 const Deal = () => {
   const [delaModal, setDealModal] = useState(false);
 
-  const userType = localStorage.getItem('Type');
-
+  const userType = localStorage.getItem("Type");
+  console.log(userType);
   return (
     <React.Fragment>
       {delaModal && (
@@ -29,9 +30,10 @@ const Deal = () => {
               Deal request
             </button>
           </div>
-          {userType === 'landowner' && <DealForLandowner />}
-          {userType === 'farmer' && <DealForFarmer />}
-          {userType === 'agent' && <DealForAgent />}
+          {userType === "landowner" && <DealForLandowner />}
+          {userType === "farmer" && <DealForFarmer />}
+          {userType === "agent" && <DealForAgent />}
+          {userType === "admin" && <DealForAdmin />}
         </div>
       </div>
     </React.Fragment>

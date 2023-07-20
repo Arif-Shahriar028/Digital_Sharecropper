@@ -9,6 +9,7 @@ import Request from "./pages/Request";
 import Appointment from "./pages/Appointment";
 import Deal from "./pages/Deal";
 import AdminAgentLogin from "./pages/AdminAgentLogin";
+import Transactions from "./pages/Transactions";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/deal" element={<Deal />} />
         <Route path="/adminagentlogin" element={<AdminAgentLogin />} />
+        <Route path="/transactions" element={<Transactions />} />
       </Routes>
       <Footer />
     </React.Fragment>
