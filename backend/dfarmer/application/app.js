@@ -201,6 +201,11 @@ async function main() {
         await getLandOwnerReqApi.getData(req, res, contract);
       });
 
+      //*================= Agent get landowners request ===================
+      app.get('/agent/deal/:location', async (req, res) => {
+        await getDealByLocationApi.getData(req, res, contract);
+      });
+
       //!=========================================================
       //?================    Farmer Section =======================
       //!==========================================================

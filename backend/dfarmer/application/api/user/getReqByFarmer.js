@@ -2,6 +2,7 @@ module.exports = {
   getReq: async (req, res, contract) => {
     // API implementation
     const userId = req.params.userId;
+    console.log('checkpoint 1');
     try {
       const result = await contract.evaluateTransaction(
         'GetRequestByFarmer',

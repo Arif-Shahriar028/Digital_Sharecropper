@@ -1,6 +1,8 @@
 module.exports = {
   getDealByLocation: async (req, res, contract) => {
     // API implementation
+
+    const landLocation = req.params.location;
     try {
       const result = await contract.evaluateTransaction(
         'GetDealByLocation',
