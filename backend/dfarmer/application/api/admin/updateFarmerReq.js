@@ -1,19 +1,21 @@
-const getUserApi = require('./getUser.js');
 const getDate = require('../../utils/getDate.js');
+const getFarmerReq = require('./getFarmerReqByNid.js');
 
 module.exports = {
-  requestLand: async (req, res, contract, txId, createTxn) => {
-    const { userId, landAmount, landLocation, experience } = req.body;
-
-    const data = await getUserApi.getUser(userId, contract);
-    const user = JSON.parse(data);
-    const nid = user[0].Record.Nid;
-    const name = user[0].Record.Name;
-    const currDate = getDate.date();
-    const status = 'pending';
-    const harvestType = 'crop';
+  updateData: async (nid, contract, createTxn) => {
+    let data = await getFarmerReq.getData(nid, contract);
+    data = JSON.parse(data);
+    const key = data[0].Record.Key;
+    const farmerId = data[0].Record.FarmerId;
+    const name = data[0].Record.Name;
+    const landLocation = data[0].Record.LandLocation;
+    const harvestType = data[0].Record.harvestType;
+    const landAmount = data[0].Record.LandAmount;
+    const time = data[0].Record.ReqTime;
+    const experience = data[0].Record.ExpTime;
+    // const currDate = getDate.date();
+    const status = 'approved';
     // key would be fetch from cookie of browser
-    const key = `requestland_${userId}`;
     try {
       let result = await contract.evaluateTransaction(
         'RequestLand',
@@ -25,7 +27,7 @@ module.exports = {
         landLocation,
         harvestType,
         landAmount,
-        currDate,
+        time,
         experience,
         status
       );
@@ -39,14 +41,14 @@ module.exports = {
         landLocation,
         harvestType,
         landAmount,
-        currDate,
+        time,
         experience,
         status
       );
       console.log(
         `Request for land request by ${name} is successful.\n Result: ${result}\n`
       );
-      createTxn(txId, `Land Request by ${key} `, landLocation);
+      createTxn(txId + '0', `Land Request by ${key} `, landLocation);
       res.send(result);
     } catch (error) {
       console.log(`*** Successfully caught the error: \n    ${error}\n`);

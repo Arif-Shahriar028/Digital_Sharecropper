@@ -1,21 +1,22 @@
-import React, { useState } from "react";
-import Modal from "../components/Modal/Modal";
-import CreateReq from "../components/Request/CreateReq";
-import RequestForLandowner from "../components/Request/RequestForLandowner";
-import RequestsForAgent from "../components/Request/RequestsForAgent";
-import RequestsForFarmer from "../components/Request/RequestsForFarmer";
-import CreateReqForInvestor from "../components/Request/CreateReqForInvestor";
+import React, { useState } from 'react';
+import Modal from '../components/Modal/Modal';
+import CreateReq from '../components/Request/CreateReq';
+import RequestForLandowner from '../components/Request/RequestForLandowner';
+import RequestsForAgent from '../components/Request/RequestsForAgent';
+import RequestsForFarmer from '../components/Request/RequestsForFarmer';
+import CreateReqForInvestor from '../components/Request/CreateReqForInvestor';
+import RequestForInvestor from '../components/Request/RequestForInvestor';
 
 const Request = () => {
   const [reqModal, setReqModal] = useState(false);
 
-  const userType = localStorage.getItem("Type");
+  const userType = localStorage.getItem('Type');
 
   return (
     <React.Fragment>
       {reqModal && (
         <Modal>
-          {userType === "investor" ? (
+          {userType === 'investor' ? (
             <CreateReqForInvestor setReqModal={setReqModal} />
           ) : (
             <CreateReq setReqModal={setReqModal} />
@@ -31,13 +32,14 @@ const Request = () => {
               }}
               className="text-white text-md px-10 py-3 bg-[#42A045] rounded-md"
             >
-              Create request
+              {userType === 'investor' ? 'Invest' : 'Create request'}
             </button>
           </div>
 
-          {userType === "landowner" && <RequestForLandowner />}
-          {userType === "farmer" && <RequestsForFarmer />}
-          {userType === "agent" && <RequestsForAgent />}
+          {userType === 'landowner' && <RequestForLandowner />}
+          {userType === 'farmer' && <RequestsForFarmer />}
+          {userType === 'agent' && <RequestsForAgent />}
+          {userType === 'investor' && <RequestForInvestor />}
         </div>
       </div>
     </React.Fragment>

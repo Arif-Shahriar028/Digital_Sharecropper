@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getLandReq } from '../../Api/api';
 
 const reqLists = [
   {
@@ -20,6 +21,17 @@ const reqLists = [
 ];
 
 const RequestsForFarmer = () => {
+  const [reqData, setReqData] = useState([]);
+  const userId = localStorage.getItem('key');
+
+  const getFarmerReq = async () => {
+    const res = await getLandReq(userId);
+    setReqData(res.data);
+  };
+  console.log(reqData);
+  useEffect(() => {
+    getFarmerReq();
+  }, []);
   return (
     <React.Fragment>
       <table className="w-full table-auto border-[1px] mt-3">
@@ -32,27 +44,29 @@ const RequestsForFarmer = () => {
           </tr>
         </thead>
         <tbody className="text-gray-700 text-md">
-          {reqLists.map((req) => (
+          {reqData.map((req) => (
             <tr
-              key={req.id}
+              key={req.Key}
               className="border-b border-gray-200 hover:bg-gray-100"
             >
               <td className="py-3 px-6 text-center whitespace-nowrap">
-                {req.landUnit}
+                {req.Record.LandAmount}
               </td>
               <td className="py-3 px-6 text-center whitespace-nowrap">
-                {req.landLocation}
+                {req.Record.LandLocation}
               </td>
               <td className="py-3 px-6 text-center whitespace-nowrap">
-                {req.experience}
+                {req.Record.ExpTime}
               </td>
               <td className="py-3 px-6 text-center whitespace-nowrap">
                 <button
                   className={`${
-                    req.status == 'Pending' ? 'bg-red-400' : 'bg-[#42A045]'
+                    req.Record.Status == 'pending'
+                      ? 'bg-red-400'
+                      : 'bg-[#42A045]'
                   } px-2 py-1 text-white rounded-md`}
                 >
-                  {req.status}
+                  {req.Record.Status}
                 </button>
               </td>
             </tr>

@@ -1,4 +1,5 @@
 // const getUserApi = require('../user/getUser.js');
+const getDate = require('../../utils/getDate.js');
 
 module.exports = {
   requestDeal: async (req, res, contract, txId, createTxn) => {
@@ -9,6 +10,7 @@ module.exports = {
     // const farmerPhoneNo = farmer[0].Record.PhoneNo;
     const key = `req_deal_${landOwnerNid}_${farmerNid}_${landId}`;
     const status = 'pending';
+    const currDate = getDate.date();
     try {
       let result = await contract.evaluateTransaction(
         'RequestDeal',
@@ -19,6 +21,7 @@ module.exports = {
         farmerNid,
         landId,
         landAmount,
+        currDate,
         status
       );
       await contract.submitTransaction(
@@ -30,6 +33,7 @@ module.exports = {
         farmerNid,
         landId,
         landAmount,
+        currDate,
         status
       );
       console.log(

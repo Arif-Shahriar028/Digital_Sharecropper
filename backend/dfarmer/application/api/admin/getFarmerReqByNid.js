@@ -1,14 +1,13 @@
 module.exports = {
-  getReq: async (req, res, contract) => {
+  getData: async (nid, contract) => {
     // API implementation
-    const userId = req.params.userId;
     try {
       const result = await contract.evaluateTransaction(
-        'GetRequestByFarmer',
-        userId
+        'GetFarmerReqByNid',
+        nid
       );
       console.log(result.toString());
-      res.send(result.toString());
+      return result.toString();
     } catch (error) {
       res.status(400).send('Req data not found');
     }

@@ -1,18 +1,20 @@
-const getUserApi = require('./getUser.js');
 const getDate = require('../../utils/getDate.js');
+const getLandOwnerReq = require('./getLandOwnerReqByNid.js');
 
 module.exports = {
-  lendLand: async (req, res, contract, txId, createTxn) => {
-    // API implementation
-    const { userId, landId, landLocation, landAmount } = req.body;
+  updateData: async (nid, contract, createTxn) => {
+    let data = await getLandOwnerReq.getData(nid, contract);
     // key would be fetch from cookie of browser
-    const data = await getUserApi.getUser(userId, contract);
-    const user = JSON.parse(data);
-    const nid = user[0].Record.Nid;
-    const currDate = getDate.date();
-    const status = 'pending';
+    data = JSON.parse(data);
+    const key = data[0].Record.Nid;
+    const txId = data[0].Record.TxnId;
+    const userId = data[0].Record.LandOwnerId;
+    const landId = data[0].Record.LandId;
+    const landLocation = data[0].Record.LandLocation;
+    const landAmount = data[0].Record.LandAmount;
+    const time = data[0].Record.ReqTime;
 
-    const key = `lendLand_${userId}_${landId}`;
+    const status = 'approved';
     try {
       let result = await contract.evaluateTransaction(
         'RequestLendLand',
@@ -23,7 +25,7 @@ module.exports = {
         landId,
         landLocation,
         landAmount,
-        currDate,
+        time,
         status
       );
       await contract.submitTransaction(
@@ -35,13 +37,13 @@ module.exports = {
         landId,
         landLocation,
         landAmount,
-        currDate,
+        time,
         status
       );
       console.log(
         `Request lend land for user - ${userId} is successful.\n Result: ${result}\n`
       );
-      createTxn(txId, `Request Lend land by ${key}`, landLocation);
+      createTxn(txId + '0', `Request Lend land by ${key}`, landLocation);
       res.send(result);
     } catch (error) {
       console.log(`*** Successfully caught the error: \n    ${error}\n`);

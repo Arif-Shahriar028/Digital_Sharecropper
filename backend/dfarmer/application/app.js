@@ -20,7 +20,7 @@ const {
 } = require('../../test-application/javascript/AppUtil.js');
 
 const channelName = 'syschannel';
-const chaincodeName = 'sysChaincode';
+const chaincodeName = 'sysChaincode3';
 const mspOrg1 = 'Org1MSP';
 const walletPath = path.join(__dirname, 'wallet');
 const org1UserId = 'appUser';
@@ -32,10 +32,15 @@ const cors = require('cors');
 const getAllInvestmentApi = require('./api/admin/getAllInvestment.js');
 const makeDealApi = require('./api/admin/makeDeal.js');
 const getTransactionApi = require('./api/admin/getTransaction.js');
+const adminRegisterApi = require('./api/admin/createAdmin.js');
+const getDealReqApi = require('./api/admin/getAllDealReq.js');
 
 const getDealByLocationApi = require('./api/agent/getDealByLocation.js');
 const requestDealApi = require('./api/agent/requestDeal.js');
 const setAppointmentApi = require('./api/agent/setAppointment.js');
+const agentRegisterApi = require('./api/agent/createAgent.js');
+const getFarmerReqApi = require('./api/agent/getFarmerReqByLocation.js');
+const getLandOwnerReqApi = require('./api/agent/getLandOwnerReqByLocation.js');
 
 const registerApi = require('./api/user/createAccount.js');
 const loginApi = require('./api/user/loginUser.js');
@@ -115,27 +120,57 @@ async function main() {
       };
       app.use(cors(corsOptions));
 
+      //*============== Create Admin ===================
+      app.post('/admin/register', async (req, res) => {
+        const txId = getRandomString(18);
+        await adminRegisterApi.registerUser(
+          req,
+          res,
+          contract,
+          txId,
+          createTxn
+        );
+      });
+
+      //!=========================================================
+      //?================    Admin Section =======================
+      //!==========================================================
+
+      //*================= Admin get all deal request ======================
+      app.post('/admin/deal-req', async (req, res) => {
+        const txId = getRandomString(18);
+        await getDealReqApi.requestDeal(req, res, contract);
+      });
+
+      //*===================== Admin create deal =======================
+      app.post('/admin/make-deal', async (req, res) => {
+        const txId = getRandomString(18);
+        await makeDealApi.makeDeal(req, res, contract, txId, createTxn);
+      });
+
+      //*================== Get All invest by admin ==================
+      app.get('/admin/all-investment', async (req, res) => {
+        await getAllInvestmentApi.getAllInvestment(req, res, contract);
+      });
+
+      app.get('/transaction', async (req, res) => {
+        await getTransactionApi.getTransaction(req, res, contract);
+      });
+
+      //!=========================================================
+      //?================    Agent Section =======================
+      //!==========================================================
+
       //*============== Register User ===================
-      app.post('/register', async (req, res) => {
+      app.post('/agent/register', async (req, res) => {
         const txId = getRandomString(18);
-        await registerApi.registerUser(req, res, contract, txId, createTxn);
-      });
-
-      //*============== Login user ======================
-      app.post('/login', async (req, res) => {
-        const txId = getRandomString(18);
-        await loginApi.login(req, res, contract, txId);
-      });
-
-      app.post('/update-profile', async (req, res) => {
-        const txId = getRandomString(18);
-        await registerApi.registerUser(req, res, contract, txId, createTxn);
-      });
-
-      //*====================== Farmer Request for land rent ========================
-      app.post('/farmer/request-land', async (req, res) => {
-        const txId = getRandomString(18);
-        await requestLandApi.requestLand(req, res, contract, txId, createTxn);
+        await agentRegisterApi.registerUser(
+          req,
+          res,
+          contract,
+          txId,
+          createTxn
+        );
       });
 
       //*================= Agent set appointment ======================
@@ -150,10 +185,45 @@ async function main() {
         );
       });
 
-      //*================== Farmer and landowner get appointment ===================
-      app.get('/user/get-appointment/:userId', async (req, res) => {
-        await getAppointmentDataApi.getAppointment(req, res, contract);
+      //*================= Agent requst a deal to admin ======================
+      app.post('/agent/req-deal', async (req, res) => {
+        const txId = getRandomString(18);
+        await requestDealApi.requestDeal(req, res, contract, txId, createTxn);
       });
+
+      //*================= Agent get farmer request ======================
+      app.get('/agent/farmer-req/:location', async (req, res) => {
+        await getFarmerReqApi.getData(req, res, contract);
+      });
+
+      //*================= Agent get landowners request ===================
+      app.get('/agent/landowner-req/:location', async (req, res) => {
+        await getLandOwnerReqApi.getData(req, res, contract);
+      });
+
+      //!=========================================================
+      //?================    Farmer Section =======================
+      //!==========================================================
+
+      //*====================== Farmer Request for land rent ========================
+      app.post('/farmer/request-land', async (req, res) => {
+        const txId = getRandomString(18);
+        await requestLandApi.requestLand(req, res, contract, txId, createTxn);
+      });
+
+      //*================== get req by farmer =============
+      app.get('/farmer/get-req/:userId', async (req, res) => {
+        await getReqByFarmerApi.getReq(req, res, contract);
+      });
+
+      //*==================== Get Deal Info by farmer ====================
+      app.get('/farmer/current-deal/:userId', async (req, res) => {
+        await getDealByFarmerApi.getDealByFarmer(req, res, contract);
+      });
+
+      //!=========================================================
+      //?================    Land owner Section =======================
+      //!==========================================================
 
       //*================= Landowner request for land lend ======================
       app.post('/landowner/lend-land', async (req, res) => {
@@ -162,30 +232,8 @@ async function main() {
       });
 
       //*================== get req by land owner =============
-      app.post('/landowner/get-req', async (req, res) => {
+      app.get('/landowner/get-req/:userId', async (req, res) => {
         await getReqByLandOwnerApi.getReq(req, res, contract);
-      });
-
-      //*================== get req by farmer =============
-      app.post('/farmer/get-req', async (req, res) => {
-        await getReqByFarmerApi.getReq(req, res, contract);
-      });
-
-      //*================= Agent requst a deal to admin ======================
-      app.post('/agent/req-deal', async (req, res) => {
-        const txId = getRandomString(18);
-        await requestDealApi.requestDeal(req, res, contract, txId, createTxn);
-      });
-
-      //*===================== Admin create deal =======================
-      app.post('/admin/make-deal', async (req, res) => {
-        const txId = getRandomString(18);
-        await makeDealApi.makeDeal(req, res, contract, txId, createTxn);
-      });
-
-      //*==================== Get Deal Info by farmer ====================
-      app.get('/farmer/current-deal/:userId', async (req, res) => {
-        await getDealByFarmerApi.getDealByFarmer(req, res, contract);
       });
 
       //*==================== Get Deal Info by landowner ====================
@@ -193,29 +241,46 @@ async function main() {
         await getDealByLandownerApi.getDealByLandOwner(req, res, contract);
       });
 
+      //!=========================================================
+      //?================    Investor Section =======================
+      //!==========================================================
+
       //*===================== Investor request for invest =======================
       app.post('/investor/invest-req', async (req, res) => {
         const txId = getRandomString(18);
         await investReqApi.invest(req, res, contract, txId, createTxn);
       });
 
+      //!=========================================================
+      //?================    Common User Section =======================
+      //!==========================================================
+
+      //*============== Register User ===================
+      app.post('/register', async (req, res) => {
+        const txId = getRandomString(18);
+        await registerApi.registerUser(req, res, contract, txId, createTxn);
+      });
+
+      //*============== Login user ======================
+      app.post('/login', async (req, res) => {
+        const txId = getRandomString(18);
+        await loginApi.login(req, res, contract);
+      });
+
+      app.post('/update-profile', async (req, res) => {
+        const txId = getRandomString(18);
+        await registerApi.registerUser(req, res, contract, txId, createTxn);
+      });
+
+      //*================== Farmer and landowner get appointment ===================
+      app.get('/user/get-appointment/:userId', async (req, res) => {
+        await getAppointmentDataApi.getAppointment(req, res, contract);
+      });
+
       //*================= Get investment details by investor =================
-      app.get('/investor/investment/', async (req, res) => {
+      app.get('/investor/investment/:userId', async (req, res) => {
         // const { nid } = req.body;
         await getDataByInvestorApi.getInvestData(req, res, contract);
-      });
-
-      //*================== Get All invest by admin ==================
-      app.get('/admin/all-investment', async (req, res) => {
-        await getAllInvestmentApi.getAllInvestment(req, res, contract);
-      });
-
-      app.get('/deal/:landLocation', async (req, res) => {
-        await getDealByLocationApi.getDealByLocation(req, res, contract);
-      });
-
-      app.get('/transaction', async (req, res) => {
-        await getTransactionApi.getTransaction(req, res, contract);
       });
 
       //*================== Set Count ====================

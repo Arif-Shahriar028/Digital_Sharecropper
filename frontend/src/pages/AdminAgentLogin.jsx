@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminAgentLogin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (email === 'admin@gmail.com') {
+      localStorage.setItem('Type', 'admin');
+      navigate('/');
+    } else if (email === 'agent@gmail.com') {
+      localStorage.setItem('Type', 'agent');
+      localStorage.setItem('name', 'Omar');
+      navigate('/');
+    }
+  };
   return (
     <React.Fragment>
       <div className="w-full h-screen flex justify-center items-center">
@@ -25,8 +37,8 @@ const AdminAgentLogin = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{
-                borderTopLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />
@@ -36,8 +48,8 @@ const AdminAgentLogin = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
-                borderTopLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
+                borderTopLeftRadius: '25px',
+                borderBottomRightRadius: '25px',
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />

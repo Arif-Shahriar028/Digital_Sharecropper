@@ -1,4 +1,6 @@
 const reqDealApi = require('../user/getDealReqByLandId.js');
+const updateFarmerReq = require('./updateFarmerReq.js');
+const updateLandOwnerReq = require('./updateLandOwnerReq.js');
 
 module.exports = {
   makeDeal: async (req, res, contract, txId, createTxn) => {
@@ -23,6 +25,9 @@ module.exports = {
       landAmount,
       status
     );
+
+    await updateFarmerReq.updateData(farmerNid, contract, createTxn);
+    await updateLandOwnerReq.updateData(landOwnerNid, contract, createTxn);
 
     const key = `deal_${landOwnerNid}_${farmerNid}_${landId}`;
     try {
@@ -61,7 +66,7 @@ module.exports = {
 };
 
 const updateReqDeal = async (
-  txId_,
+  txId,
   agentId,
   landOwnerNid,
   farmerNid,

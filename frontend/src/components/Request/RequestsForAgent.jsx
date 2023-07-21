@@ -2,19 +2,9 @@ import React, { useState } from 'react';
 const reqLists = [
   {
     id: 1,
-    appointmentTime: '10:30 AM',
-    landLocation: 'Rangpur,Sadar',
-    experience: '2 years',
-    nid: '1234567891',
-    status: 'Pending',
-  },
-  {
-    id: 2,
-    appointmentTime: '12:30 ',
-    landLocation: 'Rangpur,Sadar',
-    experience: '3 years',
-    nid: '1234567892',
-    status: 'Accepted',
+    landUnit: '1',
+    landLocation: 'Dhaka, Dhamrai',
+    nid: '123456',
   },
 ];
 
@@ -22,7 +12,7 @@ const RequestsForAgent = () => {
   const [activeReq, setActiveReq] = useState('Approved');
   return (
     <React.Fragment>
-      <div className="w-[70%] flex justify-center item-center">
+      <div className="w-full flex justify-center item-center">
         <div className="w-full flex flex-col justify-center items-center">
           <div className="w-full flex justify-center mt-5">
             <div

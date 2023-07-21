@@ -12,10 +12,11 @@ const Signin = () => {
     const res = await userSignin({ phoneNo, password });
     console.log(res);
     if (res.status === 200) {
-      const { Key, Nid, Type } = res.data;
+      const { Key, Nid, Type, Name } = res.data;
       localStorage.setItem('key', Key);
       localStorage.setItem('Nid', Nid);
       localStorage.setItem('Type', Type);
+      localStorage.setItem('name', Name);
       navigate('/');
     }
   };
