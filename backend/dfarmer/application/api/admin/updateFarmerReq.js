@@ -13,6 +13,7 @@ module.exports = {
     const landAmount = data[0].Record.LandAmount;
     const time = data[0].Record.ReqTime;
     const experience = data[0].Record.ExpTime;
+    const txId = data[0].Record.TxnId;
     // const currDate = getDate.date();
     const status = 'approved';
     // key would be fetch from cookie of browser
@@ -20,7 +21,7 @@ module.exports = {
       let result = await contract.evaluateTransaction(
         'RequestLand',
         key,
-        userId,
+        farmerId,
         txId,
         name,
         nid,
@@ -34,7 +35,7 @@ module.exports = {
       await contract.submitTransaction(
         'RequestLand',
         key,
-        userId,
+        farmerId,
         txId,
         name,
         nid,
@@ -49,10 +50,10 @@ module.exports = {
         `Request for land request by ${name} is successful.\n Result: ${result}\n`
       );
       createTxn(txId + '0', `Land Request by ${key} `, landLocation);
-      res.send(result);
+      return result;
     } catch (error) {
       console.log(`*** Successfully caught the error: \n    ${error}\n`);
-      res.send('failed');
+      return error;
     }
   },
 };

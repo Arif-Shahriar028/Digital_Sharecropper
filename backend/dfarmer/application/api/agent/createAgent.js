@@ -1,7 +1,7 @@
 module.exports = {
   registerUser: async (req, res, contract, txId, createTxn) => {
     // API implementation
-    const { email, password, location } = req.body;
+    const { name, email, password, location } = req.body;
 
     const key = `${email}`;
     console.log(key);
@@ -9,6 +9,7 @@ module.exports = {
       let result = await contract.evaluateTransaction(
         'CreateAgent',
         key,
+        name,
         email,
         location,
         password
@@ -17,6 +18,7 @@ module.exports = {
       await contract.submitTransaction(
         'CreateAgent',
         key,
+        name,
         email,
         location,
         password

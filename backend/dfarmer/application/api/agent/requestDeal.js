@@ -11,7 +11,11 @@ module.exports = {
     const key = `req_deal_${landOwnerNid}_${farmerNid}_${landId}`;
     const status = 'pending';
     const currDate = getDate.date();
+
     try {
+      console.log(
+        `${key}, ${currDate}, ${txId}, ${status}, ${agentId}, ${landOwnerNid}, ${farmerNid}, ${landAmount}, ${landId}`
+      );
       let result = await contract.evaluateTransaction(
         'RequestDeal',
         key,
@@ -24,6 +28,7 @@ module.exports = {
         currDate,
         status
       );
+      // console.log(result);
       await contract.submitTransaction(
         'RequestDeal',
         key,
@@ -37,9 +42,9 @@ module.exports = {
         status
       );
       console.log(
-        `Request lend land for user - ${userId} is successful.\n Result: ${result}\n`
+        `Request deal for user - ${agentId} is successful.\n Result: ${result}\n`
       );
-      createTxn(txId, `Request deal by agent: ${agentId}`, landlocation);
+      createTxn(txId, `Request deal by agent: ${agentId}`, landId);
       res.send(result);
     } catch (error) {
       console.log(`*** Successfully caught the error: \n    ${error}\n`);

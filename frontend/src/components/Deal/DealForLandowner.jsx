@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const appointLists = [
   {
@@ -15,6 +15,9 @@ const appointLists = [
   },
 ];
 const DealForLandowner = () => {
+  const userId = localStorage.getItem('key');
+
+  useEffect(() => {}, []);
   return (
     <React.Fragment>
       <table className="w-full table-auto mt-3 border-[1px]">

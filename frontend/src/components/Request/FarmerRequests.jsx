@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Loader from '../Loader';
 import { ApiContext } from '../../Context/ApiContext';
-import Loader from '../../components/Loader';
 
-const RequestForLandowner = () => {
+const FarmerRequests = () => {
+  const location = localStorage.getItem('location');
   const [loading, setLoading] = useState(false);
-  const { reqLand, getOwnerLand } = useContext(ApiContext);
+  const { farmerRequests, farmerReqData } = useContext(ApiContext);
 
-  const landOwnerLandReq = async () => {
+  const allFarmerRequest = async () => {
     setLoading(true);
-    await getOwnerLand();
+    await farmerRequests(location);
     setLoading(false);
   };
   useEffect(() => {
-    landOwnerLandReq();
+    allFarmerRequest();
   }, []);
   return (
     <React.Fragment>
@@ -23,24 +24,40 @@ const RequestForLandowner = () => {
           <thead>
             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
               {/* <th className="py-3 px-6 text-center"></th> */}
-              <th className="py-3 px-6 text-center">Land ID</th>
+              <th className="py-3 px-6 text-center">Name</th>
+              <th className="py-3 px-6 text-center">NID</th>
+              <th className="py-3 px-6 text-center">Phone</th>
+              <th className="py-3 px-6 text-center">Experience</th>
+              <th className="py-3 px-6 text-center">Harvest type</th>
               <th className="py-3 px-6 text-center">Land Amount</th>
-              <th className="py-3 px-6 text-center">Land location</th>
+              <th className="py-3 px-6 text-center">Land Location</th>
               <th className="py-3 px-6 text-center">Date</th>
               <th className="py-3 px-6 text-center">Status</th>
             </tr>
           </thead>
           <tbody className="text-gray-700 text-md">
-            {reqLand.map((req) => (
+            {farmerReqData.map((req) => (
               <tr
                 key={req.Record.Key}
                 className="border-b border-gray-200 hover:bg-gray-100"
               >
                 <td className="py-3 px-6 text-center whitespace-nowrap">
-                  {req.Record.LandId}
+                  {req.Record.Name}
                 </td>
                 <td className="py-3 px-6 text-center whitespace-nowrap">
-                  {req.Record.LandAmount}
+                  {req.Record.Nid}
+                </td>
+                <td className="py-3 px-6 text-center whitespace-nowrap">
+                  {req.Record.FarmerId}
+                </td>
+                <td className="py-3 px-6 text-center whitespace-nowrap">
+                  {req.Record.ExpTime}
+                </td>
+                <td className="py-3 px-6 text-center whitespace-nowrap">
+                  {req.Record.HarvestType}
+                </td>
+                <td className="py-3 px-6 text-center whitespace-nowrap">
+                  {req.Record.LandAmount} acre
                 </td>
                 <td className="py-3 px-6 text-center whitespace-nowrap">
                   {req.Record.LandLocation}
@@ -68,4 +85,4 @@ const RequestForLandowner = () => {
   );
 };
 
-export default RequestForLandowner;
+export default FarmerRequests;

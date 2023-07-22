@@ -4,15 +4,17 @@ const getLandOwnerReq = require('./getLandOwnerReqByNid.js');
 module.exports = {
   updateData: async (nid, contract, createTxn) => {
     let data = await getLandOwnerReq.getData(nid, contract);
+    console.log(`fetched data : ${data}`);
     // key would be fetch from cookie of browser
-    data = JSON.parse(data);
-    const key = data[0].Record.Nid;
-    const txId = data[0].Record.TxnId;
-    const userId = data[0].Record.LandOwnerId;
-    const landId = data[0].Record.LandId;
-    const landLocation = data[0].Record.LandLocation;
-    const landAmount = data[0].Record.LandAmount;
-    const time = data[0].Record.ReqTime;
+    const d = JSON.parse(data);
+
+    const key = d[0].Record.Nid;
+    const txId = d[0].Record.TxnId;
+    const userId = d[0].Record.LandOwnerId;
+    const landId = d[0].Record.LandId;
+    const landLocation = d[0].Record.LandLocation;
+    const landAmount = d[0].Record.LandAmount;
+    const time = d[0].Record.ReqTime;
 
     const status = 'approved';
     try {
@@ -44,10 +46,10 @@ module.exports = {
         `Request lend land for user - ${userId} is successful.\n Result: ${result}\n`
       );
       createTxn(txId + '0', `Request Lend land by ${key}`, landLocation);
-      res.send(result);
+      return result;
     } catch (error) {
       console.log(`*** Successfully caught the error: \n    ${error}\n`);
-      res.send('failed');
+      return error;
     }
   },
 };

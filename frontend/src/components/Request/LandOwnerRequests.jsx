@@ -1,18 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { getLandOwnerRequests } from '../../Api/api';
+import Loader from '../Loader';
 import { ApiContext } from '../../Context/ApiContext';
-import Loader from '../../components/Loader';
-
-const RequestForLandowner = () => {
+const reqLists = [
+  {
+    id: 1,
+    landUnit: '1',
+    landLocation: 'Dhaka, Dhamrai',
+    nid: '123456',
+  },
+];
+const LandOwnerRequests = () => {
+  const location = localStorage.getItem('location');
   const [loading, setLoading] = useState(false);
-  const { reqLand, getOwnerLand } = useContext(ApiContext);
+  const { landOwnerRequests, landOwnerData } = useContext(ApiContext);
 
-  const landOwnerLandReq = async () => {
+  const allLandOwnerRequests = async () => {
     setLoading(true);
-    await getOwnerLand();
+    await landOwnerRequests(location);
     setLoading(false);
   };
   useEffect(() => {
-    landOwnerLandReq();
+    allLandOwnerRequests();
   }, []);
   return (
     <React.Fragment>
@@ -22,25 +31,32 @@ const RequestForLandowner = () => {
         <table className="w-full table-auto border-[1px] mt-3">
           <thead>
             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-              {/* <th className="py-3 px-6 text-center"></th> */}
-              <th className="py-3 px-6 text-center">Land ID</th>
+              <th className="py-3 px-6 text-center">Name</th>
+              <th className="py-3 px-6 text-center">NID</th>
+              <th className="py-3 px-6 text-center">Phone</th>
               <th className="py-3 px-6 text-center">Land Amount</th>
-              <th className="py-3 px-6 text-center">Land location</th>
+              <th className="py-3 px-6 text-center">Land Location</th>
               <th className="py-3 px-6 text-center">Date</th>
               <th className="py-3 px-6 text-center">Status</th>
             </tr>
           </thead>
           <tbody className="text-gray-700 text-md">
-            {reqLand.map((req) => (
+            {landOwnerData.map((req) => (
               <tr
                 key={req.Record.Key}
                 className="border-b border-gray-200 hover:bg-gray-100"
               >
                 <td className="py-3 px-6 text-center whitespace-nowrap">
-                  {req.Record.LandId}
+                  {req.Record.Name}
                 </td>
                 <td className="py-3 px-6 text-center whitespace-nowrap">
-                  {req.Record.LandAmount}
+                  {req.Record.Nid}
+                </td>
+                <td className="py-3 px-6 text-center whitespace-nowrap">
+                  {req.Record.LandOwnerId}
+                </td>
+                <td className="py-3 px-6 text-center whitespace-nowrap">
+                  {req.Record.LandAmount} acre
                 </td>
                 <td className="py-3 px-6 text-center whitespace-nowrap">
                   {req.Record.LandLocation}
@@ -68,4 +84,4 @@ const RequestForLandowner = () => {
   );
 };
 
-export default RequestForLandowner;
+export default LandOwnerRequests;

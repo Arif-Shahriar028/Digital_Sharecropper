@@ -1,24 +1,38 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
-import { MdClear } from "react-icons/md";
-import { dealRequest } from "../../Api/api";
+import React, { useContext, useEffect, useState } from 'react';
+import { MdClear } from 'react-icons/md';
+import { dealRequest } from '../../Api/api';
+import { ApiContext } from '../../Context/ApiContext';
 
 const CreateDeal = ({ setDealModal }) => {
-  const [userId, setUserId] = useState("");
-  const [landOwnerNid, setLandOwnerNid] = useState("");
-  const [farmerNid, setFarmerNid] = useState("");
-  const [landAmount, setLandAmount] = useState("");
+  let agentId = localStorage.getItem('key');
+  const [landOwnerNid, setLandOwnerNid] = useState('');
+  const [farmerNid, setFarmerNid] = useState('');
+  const [landAmount, setLandAmount] = useState('');
+  const [landId, setLandId] = useState('');
+
+  const location = localStorage.getItem('location');
+
+  const { farmerReqData, landOwnerData, farmerRequests, landOwnerRequests } =
+    useContext(ApiContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log({ agentId, landOwnerNid, farmerNid, landAmount, landId });
     const res = await dealRequest({
-      // userId,
+      agentId,
       landOwnerNid,
       farmerNid,
       landAmount,
+      landId,
     });
     console.log(res);
   };
+
+  useEffect(() => {
+    farmerRequests(location);
+    landOwnerRequests(location);
+  }, []);
   return (
     <React.Fragment>
       <div className="w-[600px] bg-white flex flex-col items-start justify-start p-3 rounded-lg">
@@ -39,31 +53,54 @@ const CreateDeal = ({ setDealModal }) => {
         >
           <select
             style={{
-              borderTopLeftRadius: "25px",
-              borderBottomRightRadius: "25px",
+              borderTopLeftRadius: '25px',
+              borderBottomRightRadius: '25px',
             }}
             value={landOwnerNid}
             onChange={(e) => setLandOwnerNid(e.target.value)}
             className=" p-2 w-full outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
           >
             <option value="">Select Landowner NID</option>
-            <option value="farmer">Farmer</option>
-            <option value="landowner">Landowner</option>
-            <option value="investor">Investor</option>
+            {landOwnerData.map((req) => (
+              <option key={req.Key} value={req.Record.Nid}>
+                {req.Record.Nid}
+              </option>
+            ))}
           </select>
           <select
             style={{
-              borderTopLeftRadius: "25px",
-              borderBottomRightRadius: "25px",
+              borderTopLeftRadius: '25px',
+              borderBottomRightRadius: '25px',
+            }}
+            value={landId}
+            onChange={(e) => setLandId(e.target.value)}
+            className=" p-2 w-full outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
+          >
+            <option value="">Select Land ID</option>
+            {landOwnerData.map(
+              (req) =>
+                req.Record.Nid === landOwnerNid && (
+                  <option key={req.Key} value={req.Record.LandId}>
+                    {req.Record.LandId}
+                  </option>
+                )
+            )}
+          </select>
+          <select
+            style={{
+              borderTopLeftRadius: '25px',
+              borderBottomRightRadius: '25px',
             }}
             value={farmerNid}
             onChange={(e) => setFarmerNid(e.target.value)}
             className=" p-2 w-full outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
           >
             <option value="">Select Farmer NID</option>
-            <option value="farmer">Farmer</option>
-            <option value="landowner">Landowner</option>
-            <option value="investor">Investor</option>
+            {farmerReqData.map((req) => (
+              <option key={req.Record.Key} value={req.Record.Nid}>
+                {req.Record.Nid}
+              </option>
+            ))}
           </select>
           <input
             type="number"
@@ -71,8 +108,8 @@ const CreateDeal = ({ setDealModal }) => {
             value={landAmount}
             onChange={(e) => setLandAmount(e.target.value)}
             style={{
-              borderTopLeftRadius: "25px",
-              borderBottomRightRadius: "25px",
+              borderTopLeftRadius: '25px',
+              borderBottomRightRadius: '25px',
             }}
             className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
           />

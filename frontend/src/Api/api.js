@@ -37,6 +37,16 @@ export const newInvestment = async (data) => {
   return res;
 };
 
+export const adminAgentLogin = async (data) => {
+  const res = await axios.post(`${url}/admin/login`, data);
+  return res;
+};
+
+export const updateDeal = async (landId) => {
+  const res = await axios.post(`${url}/admin/make-deal`, { landId });
+  return res;
+};
+
 // all get api
 
 export const getLandReq = async (userId) => {
@@ -51,5 +61,35 @@ export const getLendLandReq = async (userId) => {
 
 export const getInvestment = async (userId) => {
   const res = await axios.get(`${url}/investor/investment/${userId}`);
+  return res;
+};
+
+export const getFarmersRequests = async (location) => {
+  const res = axios.get(`${url}/agent/farmer-req/${location}`);
+  return res;
+};
+
+export const getLandOwnerRequests = async (location) => {
+  const res = axios.get(`${url}/agent/landowner-req/${location}`);
+  return res;
+};
+
+export const getAllDeals = async () => {
+  const res = axios.get(`${url}/admin/deal-req`);
+  return res;
+};
+
+export const getTransactions = async () => {
+  const res = await axios.get(`${url}/transaction`);
+  return res;
+};
+
+export const getDealForUsers = async (userId) => {
+  const res = await axios.get(`${url}/farmer/current-deal/${userId}`);
+  return res;
+};
+
+export const getDealForAgent = async () => {
+  const res = await axios.get(`${url}/admin/deal-req`);
   return res;
 };

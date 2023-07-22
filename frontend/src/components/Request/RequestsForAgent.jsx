@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
-const reqLists = [
-  {
-    id: 1,
-    landUnit: '1',
-    landLocation: 'Dhaka, Dhamrai',
-    nid: '123456',
-  },
-];
+import FarmerRequests from './FarmerRequests';
+import LandOwnerRequests from './LandOwnerRequests';
 
 const RequestsForAgent = () => {
-  const [activeReq, setActiveReq] = useState('Approved');
+  const [activeReq, setActiveReq] = useState('farmer_req');
   return (
     <React.Fragment>
       <div className="w-full flex justify-center item-center">
         <div className="w-full flex flex-col justify-center items-center">
           <div className="w-full flex justify-center mt-5">
             <div
-              onClick={() => setActiveReq('Approved')}
+              onClick={() => setActiveReq('landowner_req')}
               className={`w-full rounded-md flex justify-center items-center p-2 ${
-                activeReq === 'Approved'
+                activeReq === 'landowner_req'
                   ? 'bg-[#42A045] text-white text-lg'
                   : 'bg-gray-300'
               }`}
@@ -26,9 +20,9 @@ const RequestsForAgent = () => {
               Landowner requests
             </div>
             <div
-              onClick={() => setActiveReq('Pending')}
+              onClick={() => setActiveReq('farmer_req')}
               className={`w-full rounded-md flex justify-center items-center p-2 ${
-                activeReq === 'Pending'
+                activeReq === 'farmer_req'
                   ? 'bg-[#42A045] text-lg text-white'
                   : 'bg-gray-300'
               }`}
@@ -36,48 +30,11 @@ const RequestsForAgent = () => {
               Farmer requests
             </div>
           </div>
-          <table className="w-full table-auto border-[1px] mt-3">
-            <thead>
-              <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                {/* <th className="py-3 px-6 text-center"></th> */}
-                <th className="py-3 px-6 text-center">Land unit</th>
-                <th className="py-3 px-6 text-center">Land location</th>
-                <th className="py-3 px-6 text-center">Experience</th>
-                <th className="py-3 px-6 text-center">NID</th>
-                <th className="py-3 px-6 text-center">Status</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-md">
-              {reqLists.map((req) => (
-                <tr
-                  key={req.id}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-3 px-6 text-center whitespace-nowrap">
-                    {req.landUnit}
-                  </td>
-                  <td className="py-3 px-6 text-center whitespace-nowrap">
-                    {req.landLocation}
-                  </td>
-                  <td className="py-3 px-6 text-center whitespace-nowrap">
-                    {req.experience}
-                  </td>
-                  <td className="py-3 px-6 text-center whitespace-nowrap">
-                    {req.nid}
-                  </td>
-                  <td className="py-3 px-6 text-center whitespace-nowrap">
-                    <button
-                      className={`${
-                        req.status == 'Pending' ? 'bg-red-400' : 'bg-[#42A045]'
-                      } px-2 py-1 text-white rounded-md`}
-                    >
-                      {req.status}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {activeReq === 'farmer_req' ? (
+            <FarmerRequests />
+          ) : (
+            <LandOwnerRequests />
+          )}
         </div>
       </div>
     </React.Fragment>

@@ -29,6 +29,7 @@ const Navbar = () => {
     localStorage.removeItem('key');
     localStorage.removeItem('Nid');
     localStorage.removeItem('Type');
+    localStorage.removeItem('name');
     navigate('/signin');
   };
 
@@ -59,13 +60,15 @@ const Navbar = () => {
             </li>
             {userType && (
               <>
-                <li
-                  className={`${styles.nav_link} ${
-                    pathname == '/request' && styles.nav_link_active
-                  }`}
-                >
-                  <Link to="/request">Request</Link>
-                </li>
+                {userType !== 'admin' && (
+                  <li
+                    className={`${styles.nav_link} ${
+                      pathname == '/request' && styles.nav_link_active
+                    }`}
+                  >
+                    <Link to="/request">Request</Link>
+                  </li>
+                )}
                 <li
                   className={`${styles.nav_link} ${
                     pathname == '/deal' && styles.nav_link_active
@@ -86,10 +89,7 @@ const Navbar = () => {
             )}
             {userType ? (
               <div className="flex items-center gap-x-8">
-                <button
-                  onClick={logout}
-                  className="px-3 py-2 text-white rounded-md bg-[#42A045]"
-                >
+                <button className="px-3 py-2 text-white rounded-md bg-[#42A045]">
                   {localStorage.getItem('name')} ({localStorage.getItem('Type')}
                   )
                 </button>

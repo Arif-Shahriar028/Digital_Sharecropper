@@ -26,14 +26,16 @@ const Request = () => {
       <div className="w-full min-h-screen flex justify-center items-start">
         <div className="w-[70%] flex flex-col mt-32">
           <div className="w-full flex justify-end items-center">
-            <button
-              onClick={() => {
-                setReqModal(true);
-              }}
-              className="text-white text-md px-10 py-3 bg-[#42A045] rounded-md"
-            >
-              {userType === 'investor' ? 'Invest' : 'Create request'}
-            </button>
+            {userType !== ('agent' || 'admin') && (
+              <button
+                onClick={() => {
+                  setReqModal(true);
+                }}
+                className="text-white text-md px-10 py-3 bg-[#42A045] rounded-md"
+              >
+                {userType === 'investor' ? 'Invest' : 'Create request'}
+              </button>
+            )}
           </div>
 
           {userType === 'landowner' && <RequestForLandowner />}

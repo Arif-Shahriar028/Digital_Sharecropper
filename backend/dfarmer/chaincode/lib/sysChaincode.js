@@ -39,8 +39,10 @@ class SysChanicode extends Contract {
     // ctx is transaction context
     const user = {
       Key: key,
+      Name: 'Central Author',
       Email: email,
       Password: password,
+      Type: 'admin',
       DocType: 'admin',
     };
     //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
@@ -53,13 +55,15 @@ class SysChanicode extends Contract {
   }
 
   //*================ Create Agent ===================
-  async CreateAgent(ctx, key, email, location, password) {
+  async CreateAgent(ctx, key, name, email, location, password) {
     // ctx is transaction context
     const user = {
       Key: key,
+      Name: name,
       Email: email,
       Location: location,
       Password: password,
+      Type: 'agent',
       DocType: 'agent',
     };
     //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
@@ -301,7 +305,7 @@ class SysChanicode extends Contract {
   async GetLandOwnerReqByLocation(ctx, location) {
     let queryString = {};
     queryString.selector = {};
-    queryString.selector.DocType = 'landLand';
+    queryString.selector.DocType = 'lendLand';
     queryString.selector.LandLocation = location;
     let resultsIterator = await ctx.stub.getQueryResult(
       JSON.stringify(queryString)
@@ -314,8 +318,8 @@ class SysChanicode extends Contract {
   async GetLandOwnerReqByNid(ctx, nid) {
     let queryString = {};
     queryString.selector = {};
-    queryString.selector.DocType = 'landLand';
-    queryString.selector.LandOwnerNid = nid;
+    queryString.selector.DocType = 'lendLand';
+    queryString.selector.Nid = nid;
     let resultsIterator = await ctx.stub.getQueryResult(
       JSON.stringify(queryString)
     );
@@ -325,6 +329,7 @@ class SysChanicode extends Contract {
 
   //*======================== Agent submit a deal request to the admin ======================
   async RequestDeal(
+    ctx,
     key,
     txId,
     agentId,
@@ -385,6 +390,7 @@ class SysChanicode extends Contract {
 
   //*==================== Make a deal or contract by admin ==================
   async CreatDeal(
+    ctx,
     key,
     txId,
     agentId,
@@ -487,7 +493,7 @@ class SysChanicode extends Contract {
       InvestorName: investorName,
       InvestorNid: investorNid,
       InvestAmount: investAmount,
-      Time: date,
+      Time: time,
       DocType: 'investreq',
     };
     //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'

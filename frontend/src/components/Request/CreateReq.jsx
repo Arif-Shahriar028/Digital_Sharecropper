@@ -1,25 +1,29 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MdClear } from 'react-icons/md';
 import { distictsData } from './districts';
 import { upozillasData } from './upozilla';
 import { landRequestForFarmer, landRequestForOwner } from '../../Api/api';
-// import { landRequest } from "../../Api/api";
+import { cropList } from './cropLists';
+import { ApiContext } from '../../Context/ApiContext';
+import Loader from '../Loader';
 
 const CreateReq = ({ setReqModal }) => {
-  // const [name, setName] = useState("");
-  const [landUnit, setLandUnit] = useState('');
   const [landLocation, setLandLocation] = useState('');
   const [experience, setExperience] = useState('');
   const [landId, setLandID] = useState('');
   const [landAmount, setLandAmount] = useState('');
+  const [harvestType, setHarvestType] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const { getFarmerReq, getOwnerLand } = useContext(ApiContext);
 
   const userType = localStorage.getItem('Type');
   const userId = localStorage.getItem('key');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (userType === 'landowner') {
       const res = await landRequestForOwner({
         userId,
@@ -27,16 +31,19 @@ const CreateReq = ({ setReqModal }) => {
         landAmount,
         landLocation,
       });
-      console.log(res);
+      getOwnerLand();
     } else {
       const res = await landRequestForFarmer({
         userId,
         landLocation,
         landAmount,
         experience,
+        harvestType,
       });
-      console.log(res);
     }
+    setReqModal(false);
+    setLoading(false);
+    getFarmerReq();
   };
   return (
     <React.Fragment>
@@ -57,17 +64,36 @@ const CreateReq = ({ setReqModal }) => {
           className="w-full flex flex-col gap-y-5 items-start justify-start p-4"
         >
           {userType === 'farmer' ? (
-            <input
-              type="number"
-              placeholder="Experience"
-              value={experience}
-              onChange={(e) => setExperience(e.target.value)}
-              style={{
-                borderTopLeftRadius: '25px',
-                borderBottomRightRadius: '25px',
-              }}
-              className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
-            />
+            <>
+              <input
+                type="number"
+                placeholder="Experience"
+                value={experience}
+                onChange={(e) => setExperience(e.target.value)}
+                style={{
+                  borderTopLeftRadius: '25px',
+                  borderBottomRightRadius: '25px',
+                }}
+                className="w-full p-2 px-5 text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
+              />
+
+              <select
+                style={{
+                  borderTopLeftRadius: '25px',
+                  borderBottomRightRadius: '25px',
+                }}
+                value={harvestType}
+                onChange={(e) => setHarvestType(e.target.value)}
+                className=" p-2 w-full outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
+              >
+                <option value="">Select harvest type</option>
+                {cropList.map((crop) => (
+                  <option key={crop.id} value={crop.name}>
+                    {crop.name}
+                  </option>
+                ))}
+              </select>
+            </>
           ) : (
             <>
               <input
@@ -117,12 +143,16 @@ const CreateReq = ({ setReqModal }) => {
           />
 
           <div className="w-full flex justify-center items-center">
-            <button
-              type="submit"
-              className="px-5 py-2 rounded-md bg-[#42A045] text-white"
-            >
-              Submit
-            </button>
+            {loading ? (
+              <Loader />
+            ) : (
+              <button
+                type="submit"
+                className="px-5 py-2 rounded-md bg-[#42A045] text-white"
+              >
+                Submit
+              </button>
+            )}
           </div>
         </form>
       </div>

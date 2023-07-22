@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { adminAgentLogin } from '../Api/api';
 
 const AdminAgentLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email === 'admin@gmail.com') {
-      localStorage.setItem('Type', 'admin');
-      navigate('/');
-    } else if (email === 'agent@gmail.com') {
-      localStorage.setItem('Type', 'agent');
-      localStorage.setItem('name', 'Omar');
+    const res = await adminAgentLogin({ email, password });
+    console.log(res.data);
+    if (res.status === 200) {
+      const { Key, Type, Name, Location } = res.data;
+      localStorage.setItem('key', Key);
+      localStorage.setItem('Type', Type);
+      localStorage.setItem('name', Name);
+      localStorage.setItem('location', Location);
       navigate('/');
     }
   };
+  useEffect(() => {
+    const key = localStorage.getItem('key');
+    if (key) {
+      navigate('/adminagentlogin');
+    }
+  }, []);
   return (
     <React.Fragment>
       <div className="w-full h-screen flex justify-center items-center">

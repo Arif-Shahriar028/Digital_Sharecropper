@@ -3,7 +3,8 @@ const getDate = require('../../utils/getDate.js');
 
 module.exports = {
   requestLand: async (req, res, contract, txId, createTxn) => {
-    const { userId, landAmount, landLocation, experience } = req.body;
+    const { userId, landAmount, harvestType, landLocation, experience } =
+      req.body;
 
     const data = await getUserApi.getUser(userId, contract);
     const user = JSON.parse(data);
@@ -11,7 +12,7 @@ module.exports = {
     const name = user[0].Record.Name;
     const currDate = getDate.date();
     const status = 'pending';
-    const harvestType = 'crop';
+
     // key would be fetch from cookie of browser
     const key = `requestland_${userId}`;
     try {

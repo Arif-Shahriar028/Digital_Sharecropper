@@ -20,7 +20,7 @@ const {
 } = require('../../test-application/javascript/AppUtil.js');
 
 const channelName = 'syschannel';
-const chaincodeName = 'sysChaincode3';
+const chaincodeName = 'sysChaincode6';
 const mspOrg1 = 'Org1MSP';
 const walletPath = path.join(__dirname, 'wallet');
 const org1UserId = 'appUser';
@@ -34,6 +34,7 @@ const makeDealApi = require('./api/admin/makeDeal.js');
 const getTransactionApi = require('./api/admin/getTransaction.js');
 const adminRegisterApi = require('./api/admin/createAdmin.js');
 const getDealReqApi = require('./api/admin/getAllDealReq.js');
+const adminLoginApi = require('./api/admin/loginAdmin.js');
 
 const getDealByLocationApi = require('./api/agent/getDealByLocation.js');
 const requestDealApi = require('./api/agent/requestDeal.js');
@@ -41,6 +42,7 @@ const setAppointmentApi = require('./api/agent/setAppointment.js');
 const agentRegisterApi = require('./api/agent/createAgent.js');
 const getFarmerReqApi = require('./api/agent/getFarmerReqByLocation.js');
 const getLandOwnerReqApi = require('./api/agent/getLandOwnerReqByLocation.js');
+const agentLoginApi = require('./api/agent/loginAgent.js');
 
 const registerApi = require('./api/user/createAccount.js');
 const loginApi = require('./api/user/loginUser.js');
@@ -136,10 +138,15 @@ async function main() {
       //?================    Admin Section =======================
       //!==========================================================
 
+      //*============== Login Admin ======================
+      app.post('/admin/login', async (req, res) => {
+        await adminLoginApi.login(req, res, contract);
+      });
+
       //*================= Admin get all deal request ======================
-      app.post('/admin/deal-req', async (req, res) => {
+      app.get('/admin/deal-req', async (req, res) => {
         const txId = getRandomString(18);
-        await getDealReqApi.requestDeal(req, res, contract);
+        await getDealReqApi.getData(req, res, contract);
       });
 
       //*===================== Admin create deal =======================
@@ -160,6 +167,11 @@ async function main() {
       //!=========================================================
       //?================    Agent Section =======================
       //!==========================================================
+
+      //*============== Login Admin ======================
+      app.post('/agent/login', async (req, res) => {
+        await adminLoginApi.login(req, res, contract);
+      });
 
       //*============== Register User ===================
       app.post('/agent/register', async (req, res) => {
