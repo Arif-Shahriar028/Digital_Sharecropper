@@ -1,0 +1,29 @@
+.imgDiv {
+  height: 40vh;
+  width: 100%;
+  margin-top: 5.5rem;
+}
+.imgDesign {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+}
+.make_opacity {
+  width: 100%;
+  height: 40vh;
+  position: absolute;
+  top: 9%;
+  z-index: 10;
+  background-color: #1b1f22c2;
+  opacity: 0.75;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+}

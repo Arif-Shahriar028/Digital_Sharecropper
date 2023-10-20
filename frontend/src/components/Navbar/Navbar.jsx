@@ -22,7 +22,7 @@ const Navbar = () => {
     };
   }, []);
 
-  let key = localStorage.getItem('key');
+  // let key = localStorage.getItem('key');
   const userType = localStorage.getItem('Type');
 
   const logout = () => {
@@ -37,14 +37,14 @@ const Navbar = () => {
     <React.Fragment>
       <div
         className={`w-full flex justify-center items-center fixed top-0 z-50 bg-white ${
-          pathname !== '/' && 'shadow-md'
+          pathname !== "/" && "shadow-md"
         } ${navbarColor}`}
       >
         <div className={`w-[70%] flex justify-between items-center p-4`}>
           <div className="flex items-center justify-start">
-            <img src={'/img/logo.gif'} alt="Logo_img" className="h-14 w-28" />
+            <img src={"/img/logo.gif"} alt="Logo_img" className="h-14 w-28" />
             <Link
-              to={'/'}
+              to={"/"}
               className={`text-3xl text-[#42A045] ${styles.title}`}
             >
               Digital Sharecropper
@@ -53,17 +53,24 @@ const Navbar = () => {
           <ul className="flex items-center gap-x-10 text-md font-semibold text-gray-700">
             <li
               className={`${styles.nav_link} ${
-                pathname == '/' && styles.nav_link_active
+                pathname == "/" && styles.nav_link_active
               }`}
             >
               <Link to="/">Home</Link>
             </li>
+            <li
+              className={`${styles.nav_link} ${
+                pathname == "/blogs" && styles.nav_link_active
+              }`}
+            >
+              <Link to="/blogs">Blogs</Link>
+            </li>
             {userType && (
               <>
-                {userType !== 'admin' && (
+                {userType !== "admin" && (
                   <li
                     className={`${styles.nav_link} ${
-                      pathname == '/request' && styles.nav_link_active
+                      pathname == "/request" && styles.nav_link_active
                     }`}
                   >
                     <Link to="/request">Request</Link>
@@ -71,17 +78,17 @@ const Navbar = () => {
                 )}
                 <li
                   className={`${styles.nav_link} ${
-                    pathname == '/deal' && styles.nav_link_active
+                    pathname == "/deal" && styles.nav_link_active
                   }`}
                 >
                   <Link to="/deal">Deal</Link>
                 </li>
               </>
             )}
-            {userType === 'admin' && (
+            {userType === "admin" && (
               <li
                 className={`${styles.nav_link} ${
-                  pathname == '/transactions' && styles.nav_link_active
+                  pathname == "/transactions" && styles.nav_link_active
                 }`}
               >
                 <Link to="/transactions">Transactions</Link>
@@ -90,7 +97,7 @@ const Navbar = () => {
             {userType ? (
               <div className="flex items-center gap-x-8">
                 <button className="px-3 py-2 text-white rounded-md bg-[#42A045]">
-                  {localStorage.getItem('name')} ({localStorage.getItem('Type')}
+                  {localStorage.getItem("name")} ({localStorage.getItem("Type")}
                   )
                 </button>
                 <button
@@ -104,14 +111,14 @@ const Navbar = () => {
               <>
                 <li
                   className={`${styles.nav_link} ${
-                    pathname == '/signin' && styles.nav_link_active
+                    pathname == "/signin" && styles.nav_link_active
                   }`}
                 >
                   <Link to="/signin">Login</Link>
                 </li>
                 <li
                   className={`${styles.nav_link} ${
-                    pathname == '/signup' && styles.nav_link_active
+                    pathname == "/signup" && styles.nav_link_active
                   }`}
                 >
                   <Link to="/signup">Register</Link>
