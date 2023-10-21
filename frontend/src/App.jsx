@@ -11,6 +11,7 @@ import Deal from "./pages/Deal";
 import AdminAgentLogin from "./pages/AdminAgentLogin";
 import Transactions from "./pages/Transactions";
 import Blogs from "./pages/Blogs";
+import SingleBlog from "./components/Blogs/SingleBlog";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/adminagentlogin" element={<AdminAgentLogin />} />
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:id" element={<SingleBlog />} />
       </Routes>
       <Footer />
     </React.Fragment>

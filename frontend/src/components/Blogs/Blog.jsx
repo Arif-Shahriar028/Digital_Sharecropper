@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
-
+import { Link } from "react-router-dom";
 const Blog = ({ blog }) => {
+  const { id, title, desc, image } = blog;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -14,7 +15,7 @@ const Blog = ({ blog }) => {
   }, [isInView, mainControls]);
   return (
     <React.Fragment>
-      <div ref={ref}>
+      <div ref={ref} className="w-full">
         <motion.div
           variants={{
             hidden: { opacity: 0, y: 75 },
@@ -23,30 +24,24 @@ const Blog = ({ blog }) => {
           initial="hidden"
           animate={mainControls}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className={`w-full flex ${
-            blog.id % 2 == 0 ? "flex-row-reverse" : "justify-between"
-          } p-5 mt-10`}
+          className="w-full flex flex-col items-start justify-start mt-10 shadow-md rounded-lg border hover:shadow-lg cursor-pointer"
         >
-          <div
-            className={`w-full flex flex-col ${
-              blog.id % 2 == 0 ? "items-end" : "items-start"
-            }`}
-          >
-            <h3 className="text-xl font-bold ">{blog.username}</h3>
-            <p
-              className={`text-lg text-gray-600 mt-5 ${
-                blog.id % 2 == 0 ? "text-end" : "text-start"
-              }`}
-            >
-              {blog.desc}
-            </p>
+          <img
+            src={image}
+            alt="blog"
+            className=" w-full h-[220px] rounded-t-lg"
+          />
+          <div className="flex flex-col p-3">
+            <h1 className="text-xl font-semibold">{title}</h1>
+            <h3 className="text-md text-gray-700 mt-3 text-start ">{desc.slice(0,100)}</h3>
           </div>
-          <div className="w-full p-4">
-            <img
-              src={blog.image}
-              alt="blog"
-              className="h-[30vh] w-full rounded-lg"
-            />
+          <div className="w-full flex justify-center items-center">
+            <Link
+              to={`/blogs/${id}`}
+              className="text-[#F4F4F5] px-4 py-2 bg-[#42A045] mb-3 cursor-pointer"
+            >
+              Read more
+            </Link>
           </div>
         </motion.div>
       </div>
