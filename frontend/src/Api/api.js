@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const url = 'http://localhost:3001';
+const url = "http://localhost:3001";
 
 export const userSignup = async (data) => {
   const res = await axios.post(`${url}/register`, data);
@@ -92,4 +92,17 @@ export const getDealForUsers = async (userId) => {
 export const getDealForAgent = async () => {
   const res = await axios.get(`${url}/admin/deal-req`);
   return res;
+};
+
+// local db
+const local_db_url = " http://localhost:4000";
+
+export const getReviews = async () => {
+  const res = await axios.get(`${local_db_url}/reviews`);
+  return res.data;
+};
+
+export const createReview = async (data) => {
+  const res = await axios.post(`${local_db_url}/reviews`, data);
+  return res.data;
 };
