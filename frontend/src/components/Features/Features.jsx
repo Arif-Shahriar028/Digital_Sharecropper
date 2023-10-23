@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { motion, useInView, useAnimation } from "framer-motion";
 
 const features = [
   {
@@ -21,6 +22,15 @@ const features = [
   },
 ];
 const Features = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  const mainControls = useAnimation();
+  useEffect(() => {
+    if (isInView) {
+      mainControls.start("visible");
+    }
+  }, [isInView, mainControls]);
   return (
     <React.Fragment>
       <div className="w-full flex flex-col justify-center items-center p-10">
@@ -29,9 +39,16 @@ const Features = () => {
             What we provide?
           </span>
         </div>
-        <div className="w-[70%] grid grid-cols-3 gap-10">
+        <div ref={ref} className="w-[70%] grid grid-cols-3 gap-10">
           {features.map((feature) => (
-            <div
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 75 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              initial="hidden"
+              animate={mainControls}
+              transition={{ duration: 0.5, delay: 0.25 }}
               key={feature.id}
               className="flex flex-col items-center justify-center mt-10 p-10 border-[1px] shadow-sm rounded-lg hover:shadow-lg"
             >
@@ -42,7 +59,7 @@ const Features = () => {
               <p className="text-center text-md text-gray-700">
                 {feature.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

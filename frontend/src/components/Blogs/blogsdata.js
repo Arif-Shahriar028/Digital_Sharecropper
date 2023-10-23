@@ -20,4 +20,5 @@ export const blogsDta = [
     image: "/img/img3.jpg",
     desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum, incidunt non? Quae possimus, debitis numquam deleniti ea esse laboriosam dicta. Dolor nobis repellat pariatur iste commodi, quo aliquid dolorum reiciendis ab esse magnam assumenda, sequi odio alias similique? Iusto, incidunt?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum, incidunt non? Quae possimus, debitis numquam deleniti ea esse laboriosam dicta. Dolor nobis repellat pariatur iste commodi, quo aliquid dolorum reiciendis ab esse magnam assumenda, sequi odio alias similique? Iusto, incidunt?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum, incidunt non? Quae possimus, debitis numquam deleniti ea esse laboriosam dicta. Dolor nobis repellat pariatur iste commodi, quo aliquid dolorum reiciendis ab esse magnam assumenda, sequi odio alias similique? Iusto, incidunt?",
   },
+  
 ];
