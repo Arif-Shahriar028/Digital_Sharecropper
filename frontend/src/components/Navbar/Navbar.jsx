@@ -65,13 +65,6 @@ const Navbar = () => {
             >
               <Link to="/blogs">Blogs</Link>
             </li>
-            <li
-              className={`${styles.nav_link} ${
-                pathname == "/reviews" && styles.nav_link_active
-              }`}
-            >
-              <Link to="/reviews">Reviews</Link>
-            </li>
             {userType && (
               <>
                 {userType !== "admin" && (
