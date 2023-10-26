@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { userSignin } from '../Api/api';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { userSignin } from "../Api/api";
+import Loader from "../components/Loader";
 
 const Signin = () => {
   const navigate = useNavigate();
-  const [phoneNo, setPhone] = useState('');
-  const [password, setPassword] = useState('');
+  const [phoneNo, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const res = await userSignin({ phoneNo, password });
-    console.log(res);
     if (res.status === 200) {
+      setLoading(false);
       const { Key, Nid, Type, Name } = res.data;
-      localStorage.setItem('key', Key);
-      localStorage.setItem('Nid', Nid);
-      localStorage.setItem('Type', Type);
-      localStorage.setItem('name', Name);
-      navigate('/');
+      localStorage.setItem("key", Key);
+      localStorage.setItem("Nid", Nid);
+      localStorage.setItem("Type", Type);
+      localStorage.setItem("name", Name);
+      navigate("/");
     }
   };
   return (
@@ -40,8 +43,8 @@ const Signin = () => {
               value={phoneNo}
               onChange={(e) => setPhone(e.target.value)}
               style={{
-                borderTopLeftRadius: '25px',
-                borderBottomRightRadius: '25px',
+                borderTopLeftRadius: "25px",
+                borderBottomRightRadius: "25px",
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />
@@ -51,8 +54,8 @@ const Signin = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
-                borderTopLeftRadius: '25px',
-                borderBottomRightRadius: '25px',
+                borderTopLeftRadius: "25px",
+                borderBottomRightRadius: "25px",
               }}
               className=" p-4 w-[80%] text-black outline-none border-[1px] border-gray-800 focus:border-2 focus:border-[#42A045]"
             />
@@ -66,12 +69,16 @@ const Signin = () => {
               </p>
             </div>
             <div className="w-full flex justify-center">
-              <button
-                type="submit"
-                className="text-[#F4F4F5] px-8 py-3 bg-[#42A045]"
-              >
-                Signin
-              </button>
+              {loading ? (
+                <Loader />
+              ) : (
+                <button
+                  type="submit"
+                  className="text-[#F4F4F5] px-8 py-3 bg-[#42A045]"
+                >
+                  Signin
+                </button>
+              )}
             </div>
           </form>
         </div>

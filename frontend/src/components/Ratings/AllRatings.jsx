@@ -7,15 +7,25 @@ import CreateRating from "./CreateRating";
 const AllRatings = () => {
   const [reviews, setReviews] = useState([]);
   const [showReview, setShowReview] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
-  const getAllReviews = async () => {
-    const res = await getReviews();
-    console.log(res);
-    setReviews(res);
-  };
+  const userType = localStorage.getItem("Type");
+
   useEffect(() => {
+    const getAllReviews = async () => {
+      const res = await getReviews();
+      if (searchText) {
+        console.log(searchText);
+        const filterData = res.filter((data) =>
+          data.user.toLowerCase().includes(searchText.toLowerCase())
+        );
+        setReviews(filterData);
+      } else {
+        setReviews(res);
+      }
+    };
     getAllReviews();
-  }, []);
+  }, [searchText]);
   return (
     <React.Fragment>
       {showReview && (
@@ -24,22 +34,26 @@ const AllRatings = () => {
         </Modal>
       )}
       <div className="w-full min-h-screen flex flex-col">
-        <HeadDiv title="Ratings" />
+        <HeadDiv title="Reviews" />
         <div className="w-full flex flex-col items-center mt-10">
           <div className="w-[50%] flex justify-between items-center">
             <input
               type="text"
               placeholder="Search...."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               className="w-[80%] outline-none border-2 border-gray-300 px-3 py-2 rounded-lg focus:border-gray-400"
             />
-            <button
-              onClick={() => {
-                setShowReview(true);
-              }}
-              className="text-white bg-[#42A045] px-4 py-2 text-lg hover:opacity-75"
-            >
-              Create Review
-            </button>
+            {userType === "admin" && (
+              <button
+                onClick={() => {
+                  setShowReview(true);
+                }}
+                className="text-white bg-[#42A045] px-4 py-2 text-lg hover:opacity-75"
+              >
+                Create Review
+              </button>
+            )}
           </div>
           <div className="w-[70%] grid grid-cols-3 gap-10 mt-10 pb-10">
             {reviews.length > 0 &&

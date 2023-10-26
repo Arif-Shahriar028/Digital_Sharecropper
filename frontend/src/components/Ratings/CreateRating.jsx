@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MdClear } from "react-icons/md";
 import { createReview } from "../../Api/api";
+import { ApiContext } from "../../Context/ApiContext";
 const CreateRating = ({ setShowReview }) => {
   const [user, setUser] = useState(null);
   const [type, setType] = useState(null);
   const [rating, setRating] = useState(null);
   const [desc, setDesc] = useState(null);
-
+  const { farmerReqData } = useContext(ApiContext);
+  console.log(farmerReqData)
   const handleSubmit = async () => {
     await createReview({
       agent: "Rafiqul Islam",
