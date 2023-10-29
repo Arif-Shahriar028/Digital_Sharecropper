@@ -12,6 +12,7 @@ import AdminAgentLogin from "./pages/AdminAgentLogin";
 import Transactions from "./pages/Transactions";
 import Blogs from "./pages/Blogs";
 import SingleBlog from "./components/Blogs/SingleBlog";
+import Ratings from "./pages/Ratings";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blogs/:id" element={<SingleBlog />} />
+        <Route path="/reviews" element={<Ratings />} />
       </Routes>
       <Footer />
     </React.Fragment>

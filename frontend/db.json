@@ -1,0 +1,69 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "agent": "Hasibul Islam Shanto",
+      "user": "Arif Shahriar",
+      "type": "Farmer",
+      "rating": "4",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quo aspernatur accusantium aliquam similique at eaque delectus error."
+    },
+    {
+      "id": 2,
+      "agent": "Omar Ali",
+      "user": "Rafiqul Ala",
+      "type": "Landowner",
+      "rating": "3",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quo aspernatur accusantium aliquam similique at eaque delectus error."
+    },
+    {
+      "id": 3,
+      "agent": "Ariful Islam",
+      "user": "Abdur Rahim",
+      "type": "Investor",
+      "rating": "5",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quo aspernatur accusantium aliquam similique at eaque delectus error."
+    },
+    {
+      "id": 4,
+      "agent": "Ariful Islam",
+      "user": "Abdur Rahim",
+      "type": "Investor",
+      "rating": "5",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quo aspernatur accusantium aliquam similique at eaque delectus error."
+    },
+    {
+      "agent": "Rafiqul Islam",
+      "user": "User_1",
+      "type": "Farmer",
+      "rating": "3",
+      "desc": "Hard working guy.\n",
+      "id": 5
+    },
+    {
+      "agent": "Rafiqul Islam",
+      "user": "User_2",
+      "type": "Landowner",
+      "rating": "2",
+      "desc": "Not much hard working",
+      "id": 6
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styles from './Navbar.module.css';
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styles from "./Navbar.module.css";
 const Navbar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [navbarColor, setNavbarColor] = useState('');
+  const [navbarColor, setNavbarColor] = useState("");
 
   // height change function for scrolling..........
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       if (scrollPosition > 150) {
-        setNavbarColor('shadow-md');
+        setNavbarColor("shadow-md");
       } else {
-        setNavbarColor('');
+        setNavbarColor("");
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   // let key = localStorage.getItem('key');
-  const userType = localStorage.getItem('Type');
+  const userType = localStorage.getItem("Type");
 
   const logout = () => {
-    localStorage.removeItem('key');
-    localStorage.removeItem('Nid');
-    localStorage.removeItem('Type');
-    localStorage.removeItem('name');
-    navigate('/signin');
+    localStorage.removeItem("key");
+    localStorage.removeItem("Nid");
+    localStorage.removeItem("Type");
+    localStorage.removeItem("name");
+    navigate("/signin");
   };
 
   return (
@@ -68,13 +68,23 @@ const Navbar = () => {
             {userType && (
               <>
                 {userType !== "admin" && (
-                  <li
-                    className={`${styles.nav_link} ${
-                      pathname == "/request" && styles.nav_link_active
-                    }`}
-                  >
-                    <Link to="/request">Request</Link>
-                  </li>
+                  <>
+                    <li
+                      className={`${styles.nav_link} ${
+                        pathname == "/request" && styles.nav_link_active
+                      }`}
+                    >
+                      <Link to="/request">Request</Link>
+                    </li>
+
+                    <li
+                      className={`${styles.nav_link} ${
+                        pathname == "/reviews" && styles.nav_link_active
+                      }`}
+                    >
+                      <Link to="/reviews">Reviews</Link>
+                    </li>
+                  </>
                 )}
                 <li
                   className={`${styles.nav_link} ${
@@ -86,13 +96,15 @@ const Navbar = () => {
               </>
             )}
             {userType === "admin" && (
-              <li
-                className={`${styles.nav_link} ${
-                  pathname == "/transactions" && styles.nav_link_active
-                }`}
-              >
-                <Link to="/transactions">Transactions</Link>
-              </li>
+              <>
+                <li
+                  className={`${styles.nav_link} ${
+                    pathname == "/transactions" && styles.nav_link_active
+                  }`}
+                >
+                  <Link to="/transactions">Transactions</Link>
+                </li>
+              </>
             )}
             {userType ? (
               <div className="flex items-center gap-x-8">
