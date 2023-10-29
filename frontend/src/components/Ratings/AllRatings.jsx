@@ -44,7 +44,7 @@ const AllRatings = () => {
               onChange={(e) => setSearchText(e.target.value)}
               className="w-[80%] outline-none border-2 border-gray-300 px-3 py-2 rounded-lg focus:border-gray-400"
             />
-            {userType === "admin" && (
+            {userType === "agent" && (
               <button
                 onClick={() => {
                   setShowReview(true);

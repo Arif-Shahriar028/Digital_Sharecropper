@@ -30,7 +30,7 @@ const SingleBlog = () => {
           initial="hidden"
           animate={mainControls}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="mt-24 w-[50%] flex flex-col justify-start items-center"
+          className="mt-24 w-[50%] flex flex-col justify-start items-center pb-8"
         >
           <img
             src={data[0].image}

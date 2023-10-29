@@ -40,7 +40,7 @@ const Navbar = () => {
           pathname !== "/" && "shadow-md"
         } ${navbarColor}`}
       >
-        <div className={`w-[70%] flex justify-between items-center p-4`}>
+        <div className={`w-[85%] flex justify-between items-center p-4`}>
           <div className="flex items-center justify-start">
             <img src={"/img/logo.gif"} alt="Logo_img" className="h-14 w-28" />
             <Link
@@ -58,34 +58,18 @@ const Navbar = () => {
             >
               <Link to="/">Home</Link>
             </li>
-            <li
-              className={`${styles.nav_link} ${
-                pathname == "/blogs" && styles.nav_link_active
-              }`}
-            >
-              <Link to="/blogs">Blogs</Link>
-            </li>
             {userType && (
               <>
                 {userType !== "admin" && (
-                  <>
-                    <li
-                      className={`${styles.nav_link} ${
-                        pathname == "/request" && styles.nav_link_active
-                      }`}
-                    >
-                      <Link to="/request">Request</Link>
-                    </li>
-
-                    <li
-                      className={`${styles.nav_link} ${
-                        pathname == "/reviews" && styles.nav_link_active
-                      }`}
-                    >
-                      <Link to="/reviews">Reviews</Link>
-                    </li>
-                  </>
+                  <li
+                    className={`${styles.nav_link} ${
+                      pathname == "/request" && styles.nav_link_active
+                    }`}
+                  >
+                    <Link to="/request">Request</Link>
+                  </li>
                 )}
+
                 <li
                   className={`${styles.nav_link} ${
                     pathname == "/deal" && styles.nav_link_active
@@ -106,6 +90,33 @@ const Navbar = () => {
                 </li>
               </>
             )}
+
+            {userType === "admin" && (
+              <li
+                className={`${styles.nav_link} ${
+                  pathname == "/reviews" && styles.nav_link_active
+                }`}
+              >
+                <Link to="/reviews">Reviews</Link>
+              </li>
+            )}
+            {userType === "agent" && (
+              <li
+                className={`${styles.nav_link} ${
+                  pathname == "/reviews" && styles.nav_link_active
+                }`}
+              >
+                <Link to="/reviews">Reviews</Link>
+              </li>
+            )}
+
+            <li
+              className={`${styles.nav_link} ${
+                pathname == "/blogs" && styles.nav_link_active
+              }`}
+            >
+              <Link to="/blogs">Blogs</Link>
+            </li>
             {userType ? (
               <div className="flex items-center gap-x-8">
                 <button className="px-3 py-2 text-white rounded-md bg-[#42A045]">
