@@ -1,6 +1,16 @@
+# Digital Sharecropper
+
+Welcome to Digital Sharecropper github repo. To run the project follow the following commands.
+
+## Clone the repo
+
+First, clone the repo to your local system:
+
+`git clone https://github.com/Hasibul-Islam-Shanto/olympiad.git`
+
 ## To run backend:
 
-### Open terminal and change directory to project/backend/ and run following command:
+### Open terminal and change directory to `olympiad/backend/` and run following command:
 
 - Download fabric binary files script:
 
@@ -22,7 +32,7 @@
 
 ** if all process above done once then no necessary to do it again **
 
-### Now, open terminal and change directory to backend/test-network
+### Now, open terminal and change directory to `/backend/test-network`
 
 1. Stop the network:
    `sudo ./network.sh down`
