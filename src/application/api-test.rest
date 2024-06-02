@@ -1,0 +1,7 @@
+###
+POST http://localhost:3009/endorser/register-schema
+content-type: application/json
+
+{
+    "schemaResult": "{\"_tags\":{\"issuerId\":\"did:indy:bcovrin:test:LvR6LGmiGzfowBgWtUA5oi\",\"methodName\":\"indy\",\"schemaId\":\"did:indy:bcovrin:test:LvR6LGmiGzfowBgWtUA5oi/anoncreds/v0/SCHEMA/Certificate schema/1.0.4\",\"schemaName\":\"Certificate schema\",\"schemaVersion\":\"1.0.4\",\"unqualifiedSchemaId\":\"LvR6LGmiGzfowBgWtUA5oi:2:Certificate schema:1.0.4\"},\"type\":\"AnonCredsSchemaRecord\",\"metadata\":{\"data\":{}},\"id\":\"0cbca12d-614f-41bb-abbf-21ec831bbab0\",\"schema\":{\"attrNames\":[\"attr1\",\"attr2\"],\"issuerId\":\"did:indy:bcovrin:test:LvR6LGmiGzfowBgWtUA5oi\",\"name\":\"Certificate schema\",\"version\":\"1.0.4\"},\"schemaId\":\"did:indy:bcovrin:test:LvR6LGmiGzfowBgWtUA5oi/anoncreds/v0/SCHEMA/Certificate schema/1.0.4\",\"methodName\":\"indy\",\"updatedAt\":\"2024-05-23T12:10:14.044Z\"}"
+}

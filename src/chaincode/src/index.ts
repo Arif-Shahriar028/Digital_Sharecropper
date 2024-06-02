@@ -2,8 +2,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {AssetTransferContract} from './assetTransfer';
+import {ManageIdentityContract} from './manageIdentity';
 
-export {AssetTransferContract} from './assetTransfer';
+export {ManageIdentityContract} from './manageIdentity';
 
-export const contracts: any[] = [AssetTransferContract];
+export const contracts: any[] = [ManageIdentityContract];

@@ -50,7 +50,7 @@ const enrollAdmin = async (caClient: FabricCAServices, wallet: Wallet, orgMspId:
     }
 };
 
-const registerAndEnrollUser = async (caClient: FabricCAServices, wallet: Wallet, orgMspId: string, userId: string, affiliation: string): Promise<void> => {
+const registerAndEnrollUser = async (caClient: FabricCAServices, wallet: any, orgMspId: string, userId: string, affiliation: string): Promise<void> => {
     try {
         // Check to see if we've already enrolled the user
         const userIdentity = await wallet.get(userId);
