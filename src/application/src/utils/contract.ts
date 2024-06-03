@@ -13,7 +13,7 @@ const chaincodeName = process.env.CHAINCODE_NAME || 'manageIdentity';
 
 const mspOrg1 = 'Org1MSP';
 const walletPath = path.join(__dirname, '../wallet');
-const org1UserId = 'appUser10';
+const org1UserId = 'appUser12';
 
 async function getContract() {
     try {
@@ -69,7 +69,8 @@ async function getContract() {
         } finally {
             // Disconnect from the gateway when the application is closing
             // This will close all connections to the network
-            gateway.disconnect();
+            console.log("Finally block executed")
+            // gateway.disconnect();
         }
     } catch (error) {
         console.error(`******** FAILED to run the application: ${error}`);

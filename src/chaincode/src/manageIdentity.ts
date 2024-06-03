@@ -11,7 +11,7 @@ export class ManageIdentityContract extends Contract {
 
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async RegisterSchema(ctx: Context, id: string, schemaResult: string): Promise<void> {
+    public async RegisterSchema(ctx: Context, id: string, schemaResult: string): Promise<string> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`Schema for id : ${id} already exists`);
@@ -23,11 +23,13 @@ export class ManageIdentityContract extends Contract {
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
+
+        return JSON.stringify(asset)
     }
 
 
     @Transaction()
-    public async RegisterCredentialDef(ctx: Context, id: string, credentialDef: string): Promise<void> {
+    public async RegisterCredentialDef(ctx: Context, id: string, credentialDef: string): Promise<string> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`Credential definition for id: ${id} already exists`);
@@ -39,6 +41,8 @@ export class ManageIdentityContract extends Contract {
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
+
+        return JSON.stringify(asset)
     }
 
     // ReadAsset returns the asset stored in the world state with given id.
