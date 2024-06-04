@@ -1,4 +1,6 @@
 import { Contract } from "fabric-network";
+import { ISchema } from "../utils/Types";
+
 
 /** 
  * @param contract
@@ -12,11 +14,10 @@ import { Contract } from "fabric-network";
 
 const registerSchema = async (contract: Contract, req: any, res: any) => {
 
-  const {schemaResult} = req.body;
-  console.log(schemaResult)
+  const newSchema: ISchema = req.body.newSchema;
+  console.log(newSchema)
 
-  const schemaJson = JSON.parse(schemaResult)
-  const id = schemaJson.schemaId
+  const id = newSchema.schemaId
 
   console.log(`schema id: ${id}`)
 
@@ -25,14 +26,20 @@ const registerSchema = async (contract: Contract, req: any, res: any) => {
     const exist = await contract.evaluateTransaction("AssetExists", id)
   
     if(exist.toString() === "false"){
+
       console.log("\nRegistering schema to the ledger\n")
-      const result = await contract.submitTransaction("RegisterSchema", id, schemaResult)
+
+      const newSchemaString = JSON.stringify(newSchema) 
+
+      const result = await contract.submitTransaction("RegisterSchema", id, newSchemaString)
+      
       res.send(result)
-    }else{
+
+    } else {
       console.log(`Schema already exist for id: ${id}`)
       res.send({message: "Schema exist"})
     }
-  }catch(error){
+  } catch (error){
     console.log(error)
     res.send({message: "Failed"})
   }

@@ -28,6 +28,7 @@ const enrollAdmin = async (caClient: FabricCAServices, wallet: Wallet, orgMspId:
     try {
         // Check to see if we've already enrolled the admin user.
         const identity = await wallet.get(adminUserId);
+       
         if (identity) {
             console.log('An identity for the admin user already exists in the wallet');
             return;
@@ -45,6 +46,8 @@ const enrollAdmin = async (caClient: FabricCAServices, wallet: Wallet, orgMspId:
         };
         await wallet.put(adminUserId, x509Identity);
         console.log('Successfully enrolled admin user and imported it into the wallet');
+        
+
     } catch (error) {
         console.error(`Failed to enroll admin user : ${error}`);
     }
@@ -54,6 +57,7 @@ const registerAndEnrollUser = async (caClient: FabricCAServices, wallet: any, or
     try {
         // Check to see if we've already enrolled the user
         const userIdentity = await wallet.get(userId);
+
         if (userIdentity) {
             console.log(`An identity for the user ${userId} already exists in the wallet`);
             return;
@@ -61,6 +65,8 @@ const registerAndEnrollUser = async (caClient: FabricCAServices, wallet: any, or
 
         // Must use an admin to register a new user
         const adminIdentity = await wallet.get(adminUserId);
+        console.log(`admin id: \n ${adminIdentity}`)
+
         if (!adminIdentity) {
             console.log('An identity for the admin user does not exist in the wallet');
             console.log('Enroll the admin user before retrying');

@@ -1,3 +1,4 @@
+
 /*
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -6,43 +7,67 @@ import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
 
+export type ICredDef = {
+    issuerId: string;
+    schemaId: string;
+    tag: string;
+    value: any;
+    credentialDefinitionId: string;
+    type: string;
+  }
+  
+  export type ISchema = {
+    issuerId: string;
+    name: string;
+    version: string;
+    attrNames: string[];
+    schemaId: string;
+  }
+
 @Info({title: 'ManageIdentity', description: 'Smart contract for managing identity'})
 export class ManageIdentityContract extends Contract {
 
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async RegisterSchema(ctx: Context, id: string, schemaResult: string): Promise<string> {
+    public async RegisterSchema(ctx: Context, id: string, schemaResultString: string): Promise<ISchema> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`Schema for id : ${id} already exists`);
         }
 
+        const schemaResult: ISchema = JSON.parse(schemaResultString)
+
         const asset = {
             ID: id,
             Schema: schemaResult,
+            DocType: 'schema',
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
 
-        return JSON.stringify(asset)
+        return schemaResult
     }
 
 
     @Transaction()
-    public async RegisterCredentialDef(ctx: Context, id: string, credentialDef: string): Promise<string> {
+    public async RegisterCredentialDef(ctx: Context, id: string, credentialDefString: string): Promise<ICredDef> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`Credential definition for id: ${id} already exists`);
         }
 
+        const credDef: ICredDef = JSON.parse(credentialDefString)
+
         const asset = {
             ID: id,
-            CredentialDefinition: credentialDef,
+            CredentialDefinition: credDef,
+            DocType: 'credentialDefinition',
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
 
-        return JSON.stringify(asset)
+        console.log("in chaincode:\n", credDef)
+        return credDef
     }
 
     // ReadAsset returns the asset stored in the world state with given id.

@@ -7,13 +7,14 @@ import { Gateway, GatewayOptions } from 'fabric-network';
 import * as path from 'path';
 import { buildCCPOrg1, buildWallet, prettyJSONString } from './AppUtil';
 import { buildCAClient, enrollAdmin, registerAndEnrollUser } from './CAUtil';
+import { userId } from './Values';
 
 const channelName = process.env.CHANNEL_NAME || 'syschannel';
 const chaincodeName = process.env.CHAINCODE_NAME || 'manageIdentity';
 
 const mspOrg1 = 'Org1MSP';
 const walletPath = path.join(__dirname, '../wallet');
-const org1UserId = 'appUser12';
+const org1UserId = userId;
 
 async function getContract() {
     try {
@@ -34,7 +35,6 @@ async function getContract() {
         // and would be part of an administrative flow
 
         await registerAndEnrollUser(caClient, wallet, mspOrg1, org1UserId, 'org1.department1');
-        
 
         // Create a new gateway instance for interacting with the fabric network.
         // In a real application this would be done as the backend server session is setup for

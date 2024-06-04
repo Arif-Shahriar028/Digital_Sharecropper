@@ -1,6 +1,6 @@
-## To run the server:
+## To run the fabric-api:
 
-### Open terminal and change directory to project/backend/ and run following command:
+### Open terminal and change directory to project root and run following command:
 
 - Download fabric binary file download sript:
   `curl -sSLO https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh && chmod +x install-fabric.sh`
@@ -27,9 +27,11 @@
 4. Deploy Chanicode:
    `./network.sh deployCC -ccn manageIdentity -ccp ../src/chaincode/ -ccl typescript`
 
-**(After completion of deploying chaincode)** 5. Run express server: Open terminal on "backend/dfarmer/application" and then:
-`npm install`
-`npx ts-node server.ts`
+**(After completion of deploying chaincode)**
+
+5. Run express server: Open terminal on "root_directory/src/application" and then:
+   `npm install`
+   `npx ts-node server.ts`
 
 **To check couchdb:**
 `http://localhost:5984/_utils/`
